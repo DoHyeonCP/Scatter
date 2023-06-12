@@ -15,9 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
-from seoul_api.views import get_seoul_hotspots
+from seoul_api.views import get_seoul_hotspots, get_sk_hotspots
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api-auth/', get_seoul_hotspots)
+    path('api-seoul/', get_seoul_hotspots),
+    path('api-sk/', get_sk_hotspots)
 ]
