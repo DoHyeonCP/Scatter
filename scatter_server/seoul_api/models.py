@@ -18,6 +18,12 @@ class SkJsonPoisData(models.Model): # 지역
 class SKJsonAreasData(models.Model): #상권
     sk_areas_data = models.JSONField()
     created_at = models.DateTimeField(auto_now_add = True)
+
+class SkJsonPoisAreasHourData(models.Model): # 시간대별
+	sk_pois_hour_data = models.JSONField()
+	sk_areas_hour_data = models.JSONField()
+	created_at = models.DateTimeField(auto_now_add = True)
+    
     
     
 
