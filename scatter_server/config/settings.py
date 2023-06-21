@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'seoul_api',
     'rest_framework',
+    'android_transfer',
 ]
 
 MIDDLEWARE = [

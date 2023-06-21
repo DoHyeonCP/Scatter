@@ -16,9 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,include
 from seoul_api.views import get_seoul_hotspots, get_sk_hotspots
+from android_transfer.views import get_gps
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-seoul/', get_seoul_hotspots),
-    path('api-sk/', get_sk_hotspots)
+    path('api-sk/', get_sk_hotspots),
+    path('get-gps/', get_gps)
 ]

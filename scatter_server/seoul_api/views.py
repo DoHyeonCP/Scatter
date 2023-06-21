@@ -7,8 +7,7 @@ from rest_framework.parsers import JSONParser
 from django.shortcuts import render
 from django.http import JsonResponse,HttpResponse
 from .serializer import SkAreasserializer, SkPoisSerializer
-from .callapi import sk_api_areas_congetion,sk_api_pois_congetion,sk_api_pois_areas_congetion,seoul_api_space
-
+from .callapi import sk_api_areas_congetion,sk_api_pois_congetion,seoul_api_space, sk_api_pois_areas_congetion
 # Create your views here.
 
 # save request
