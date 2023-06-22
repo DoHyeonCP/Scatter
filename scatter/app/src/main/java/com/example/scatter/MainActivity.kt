@@ -180,11 +180,42 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+<<<<<<< HEAD
+=======
+    fun startLocationUpdates() {
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            return
+        }
+        val locationRequest = LocationRequest.create()?.apply {
+            interval = 1000
+            fastestInterval = 500
+            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        }
+        fusedLocationClient.requestLocationUpdates(
+            locationRequest!!,
+            locationCallback,
+            null
+        )
+    }
+
+
+>>>>>>> 0465f0046ca59f8223c8ab9a1bb77619ff41f0db
     // 통합 위치 제공자 초기화
 
 
     private fun sendLocationToServer(latitude: Double, longitude: Double) {
+<<<<<<< HEAD
         val brokerUrl = "tcp://192.168.0.15:1883"
+=======
+        val brokerUrl = "tcp://115.24.135.45:1883"
+>>>>>>> 0465f0046ca59f8223c8ab9a1bb77619ff41f0db
         val clientId = "Phone_GPS"
         val payload = "disconnected".toByteArray(Charsets.UTF_8)
 
