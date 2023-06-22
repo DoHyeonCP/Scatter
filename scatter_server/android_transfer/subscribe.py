@@ -18,7 +18,7 @@ client.on_message = on_message
 
 def location_subscribe():
     try:
-        host_id = "192.168.0.5"
+        host_id = "115.21.135.45"
         port = "1883"
         client.connect(host_id, port)
         client.loop_forever()

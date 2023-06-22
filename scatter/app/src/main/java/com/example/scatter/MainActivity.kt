@@ -1,7 +1,11 @@
 package com.example.scatter
 
 import android.content.ContentValues.TAG
+import android.content.Context
 import android.content.pm.PackageManager
+import android.location.Location
+import android.location.LocationManager
+import android.location.LocationListener
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
@@ -31,11 +35,16 @@ import org.eclipse.paho.android.service.MqttAndroidClient
 import org.eclipse.paho.client.mqttv3.*
 import java.net.HttpURLConnection
 import java.net.URL
+import java.security.Security
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: MainActivityBinding
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private lateinit var locationManager : LocationManager
     private lateinit var locationCallback: LocationCallback
+    private lateinit var locationRequest: LocationRequest
+    private lateinit var gpsListener : GPSListener
     private val LOCATION_PERMISSION_REQUEST_CODE = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,7 +53,8 @@ class MainActivity : AppCompatActivity() {
         binding = MainActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        initLocationClient()
+        locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+
 
     }
 
@@ -53,6 +63,68 @@ class MainActivity : AppCompatActivity() {
         requestlocationPermission()
     }
 
+
+    private fun startLocationService(){
+        try{
+            var location: Location? = null
+            val minTime: Long = 0
+            val minDistance = 0f
+
+            if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+
+                if(location != null){
+                    val latitude = location.latitude
+                    val longitude = location.longitude
+                    val message = "최근위치1 -> Latitude : $latitude, Longitude : $longitude"
+                    Log.i("MyLocTest", message)
+                }
+                locationManager.requestLocationUpdates(
+                    LocationManager.GPS_PROVIDER,
+                    minTime,
+                    minDistance,
+                    gpsListener
+                )
+            }
+            else if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+                location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+
+                if (location != null) {
+                    val latitude = location.latitude
+                    val longitude = location.longitude
+                    val message = "최근 위치2 -> Latitude : $latitude\n Longitude : $longitude"
+                    Log.i("MyLocTest", message)
+                }
+
+                // 위치 요청하기
+                locationManager.requestLocationUpdates(
+                    LocationManager.NETWORK_PROVIDER,
+                    minTime,
+                    minDistance,
+                    gpsListener
+                )
+                Log.i("MyLocTest", "requestLocationUpdates() 내 위치2에서 호출시작 ~~ ")
+            }
+        } catch (e: SecurityException){
+            e.printStackTrace()
+        }
+    }
+
+    inner class GPSListener : LocationListener {
+        override fun onLocationChanged(location: Location) {
+            val latitude = location.latitude
+            val longitude = location.longitude
+            val message = "내 위치는 Latitude : $latitude Longitude : $longitude"
+
+            Log.i("MyLocTest", message)
+        }
+
+        override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
+
+        override fun onProviderEnabled(provider: String) {}
+
+        override fun onProviderDisabled(provider: String) {}
+    }
 
     private fun requestlocationPermission() {
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
@@ -81,6 +153,11 @@ class MainActivity : AppCompatActivity() {
                 )
             }
         } else {
+            fusedLocationClient.requestLocationUpdates(
+                locationRequest,
+                locationCallback,
+                Looper.getMainLooper()
+            )
         }
     }
 
@@ -97,53 +174,6 @@ class MainActivity : AppCompatActivity() {
             } else {
                 return
             }
-        }
-    }
-
-
-    fun startLocationUpdates() {
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                android.Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                this,
-                android.Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            return
-        }
-        val locationRequest = LocationRequest.create()?.apply {
-            interval = 1000
-            fastestInterval = 500
-            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-        }
-        fusedLocationClient.requestLocationUpdates(
-            locationRequest!!,
-            locationCallback,
-            null
-        )
-    }
-
-
-    // 통합 위치 제공자 초기화
-    private fun initLocationClient() {
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-
-        val locationRequest = LocationRequest.create()?.apply {
-            interval = 1000
-            fastestInterval = 500
-            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-        }
-
-        val builder = LocationSettingsRequest.Builder()
-            .addLocationRequest(locationRequest!!)
-        val client = LocationServices.getSettingsClient(this)
-        val task = client.checkLocationSettings(builder.build())
-        task.addOnSuccessListener {
-            Log.d(TAG, "location client setting success")
-        }
-        task.addOnFailureListener {
-            Log.d(TAG, "location client setting fail")
         }
     }
 
@@ -174,7 +204,55 @@ class MainActivity : AppCompatActivity() {
         mqttClient.publish(topic, message)
 
     }
+
+    fun startLocationUpdates() {
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            return
+        }
+        val locationRequest = LocationRequest.create()?.apply {
+            interval = 1000
+            fastestInterval = 500
+            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        }
+        fusedLocationClient.requestLocationUpdates(
+            locationRequest!!,
+            locationCallback,
+            null
+        )
+    }
+
+
 }
+    // 통합 위치 제공자 초기화
+    private fun initLocationClient() {
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
+        val locationRequest = LocationRequest.create()?.apply {
+            interval = 1000
+            fastestInterval = 500
+            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        }
+
+        val builder = LocationSettingsRequest.Builder()
+            .addLocationRequest(locationRequest!!)
+        val client = LocationServices.getSettingsClient(this)
+        val task = client.checkLocationSettings(builder.build())
+        task.addOnSuccessListener {
+            Log.d(TAG, locationRequest.toString())
+        }
+        task.addOnFailureListener {
+            Log.d(TAG, locationRequest.toString())
+        }
+    }
+
+
 
 
 
