@@ -112,7 +112,6 @@ class MainActivity : AppCompatActivity() {
         ) {
             return
         }
-        initLocationClient()
         val locationRequest = LocationRequest.create()?.apply {
             interval = 1000
             fastestInterval = 500
@@ -149,7 +148,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun sendLocationToServer(latitude: Double, longitude: Double) {
-        val brokerUrl = "tcp://192.168.0.5:1883"
+        val brokerUrl = "tcp://115.24.135.45:1883"
         val clientId = "Phone_GPS"
 
         val mqttClient = MqttAndroidClient(applicationContext, brokerUrl, clientId)
