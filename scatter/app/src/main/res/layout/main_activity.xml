@@ -7,20 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="308dp"
-        android:layout_height="139dp"
-        android:layout_marginStart="51dp"
-        android:layout_marginEnd="52dp"
-        android:layout_marginBottom="56dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mapView" />
-
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="61dp"
@@ -29,23 +15,46 @@
         android:layout_marginTop="47dp"
         android:layout_marginEnd="52dp"
         android:layout_marginBottom="34dp"
-        app:layout_constraintBottom_toTopOf="@+id/mapView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/exit" />
 
-    <com.google.android.gms.maps.MapView
-        android:id="@+id/mapView"
-        android:layout_width="318dp"
-        android:layout_height="324dp"
-        android:layout_marginStart="46dp"
-        android:layout_marginTop="34dp"
-        android:layout_marginEnd="47dp"
-        android:layout_marginBottom="51dp"
-        app:layout_constraintBottom_toTopOf="@+id/textView"
+    <WebView
+        android:id="@+id/webView"
+        android:layout_width="313dp"
+        android:layout_height="327dp"
+        android:layout_marginStart="49dp"
+        android:layout_marginTop="61dp"
+        android:layout_marginEnd="49dp"
+        android:layout_marginBottom="46dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView">
+    </WebView>
+
+    <TextView
+        android:id="@+id/text_head"
+        android:layout_width="77dp"
+        android:layout_height="105dp"
+        android:layout_marginStart="59dp"
+        android:layout_marginEnd="51dp"
+        android:layout_marginBottom="65dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.009"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/webView" />
+
+    <TextView
+        android:id="@+id/text_body"
+        android:layout_width="207dp"
+        android:layout_height="104dp"
+        android:text="TextView"
+        tools:layout_editor_absoluteX="138dp"
+        tools:layout_editor_absoluteY="555dp" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

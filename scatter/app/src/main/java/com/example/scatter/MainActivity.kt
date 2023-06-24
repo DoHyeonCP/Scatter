@@ -7,9 +7,14 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
+import android.net.http.SslError
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
+import android.webkit.SslErrorHandler
+import android.webkit.WebSettings
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts.*
@@ -46,6 +51,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var locationRequest: LocationRequest
     private lateinit var gpsListener : GPSListener
     private lateinit var mqttClient : MqttClient
+    private lateinit var webView: WebView
 
     private val LOCATION_PERMISSION_REQUEST_CODE = 1
 
@@ -54,6 +60,21 @@ class MainActivity : AppCompatActivity() {
         setTheme(androidx.appcompat.R.style.Theme_AppCompat)
         binding = MainActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        webView = binding.webView
+        webView.settings.javaScriptEnabled = true
+        webView.settings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
+//        webView.webViewClient = object : WebViewClient(){
+//            override fun onRecievedSslError(view: WebView?, handler: SslErrorHandler?, error: SslError?){
+//                handler?.proceed()
+//            }
+//        }
+        // sk Puzzle map
+        webView.loadUrl("https://puzzle.geovision.co.kr/map?lat=37.52772172963041&lng=127.03519374778266&zoom=14&poiId=0&overlayType=")
+        val congetioninfotxt = binding.textHead
+        congetioninfotxt.text = "업데이트시간: " +
+                "장소: " +
+                "혼잡레벨: "
 
         locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
     }
@@ -164,58 +185,27 @@ class MainActivity : AppCompatActivity() {
     }
 
     // 권한 요청 결과 처리를 위한 함수 (권한 요청 후 호출됨)
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-            } else {
-                return
-            }
-        }
-    }
-
-
-<<<<<<< HEAD
-=======
-    fun startLocationUpdates() {
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                android.Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                this,
-                android.Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            return
-        }
-        val locationRequest = LocationRequest.create()?.apply {
-            interval = 1000
-            fastestInterval = 500
-            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-        }
-        fusedLocationClient.requestLocationUpdates(
-            locationRequest!!,
-            locationCallback,
-            null
-        )
-    }
+//    override fun onRequestPermissionsResult(
+//        requestCode: Int,
+//        permissions: Array<out String>,
+//        grantResults: IntArray
+//    ) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+//        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
+//            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//
+//            } else {
+//                return
+//            }
+//        }
+//    }
 
 
->>>>>>> 0465f0046ca59f8223c8ab9a1bb77619ff41f0db
-    // 통합 위치 제공자 초기화
+
 
 
     private fun sendLocationToServer(latitude: Double, longitude: Double) {
-<<<<<<< HEAD
-        val brokerUrl = "tcp://192.168.0.15:1883"
-=======
-        val brokerUrl = "tcp://115.24.135.45:1883"
->>>>>>> 0465f0046ca59f8223c8ab9a1bb77619ff41f0db
+        val brokerUrl = "tcp://172.30.67.117:1883"
         val clientId = "Phone_GPS"
         val payload = "disconnected".toByteArray(Charsets.UTF_8)
 
