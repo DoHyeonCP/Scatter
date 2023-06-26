@@ -21,7 +21,7 @@ class Mqtt {
             ex.printStackTrace()
         }
         val topic = "location"
-        val message = "$latitude : $longitude"
+        val message = "$latitude, $longitude"
         val mqttMessage = MqttMessage(message.toByteArray())
         mqttClient.publish(topic, mqttMessage)
     }

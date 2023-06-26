@@ -3,6 +3,7 @@
         <!-- Customize your theme here-->
         <item name = "colorPrimary">@color/design_default_color_primary</item>
         <item name="colorPrimaryDark">@color/design_default_color_primary_dark</item>
+        <item name="windowActionBar">false</item>
     </style>
     <string name="app_name">scatter</string>
 </resources>

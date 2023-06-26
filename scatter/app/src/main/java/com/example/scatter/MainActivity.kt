@@ -3,53 +3,61 @@ package com.example.scatter
 
 
 import android.content.Context
-import android.location.Location
+import android.content.Intent
 import android.location.LocationManager
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
-import android.webkit.WebSettings
+import android.view.Gravity
 import android.webkit.WebView
-import androidx.activity.result.contract.ActivityResultContracts.*
+import android.widget.Button
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.drawerlayout.widget.DrawerLayout
 import com.example.scatter.databinding.MainActivityBinding
-import com.example.scatter.LocationInfo
-import com.example.scatter.Mqtt
-import com.example.scatter.RequestPermissions
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationRequest
-import java.util.*
+import com.example.scatter.databinding.ToolbarBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var mainbinding: MainActivityBinding
     private lateinit var locationManager : LocationManager
-    private lateinit var webView : WebView
+
+
+    private lateinit var toolbarbinding : ToolbarBinding
+    private lateinit var ivMenu : ImageView
+    private lateinit var drawerLayout : DrawerLayout
     private lateinit var toolbar : Toolbar
 
+    private lateinit var button : Button
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
-        setTheme(androidx.appcompat.R.style.Theme_AppCompat)
         mainbinding = MainActivityBinding.inflate(layoutInflater)
+        toolbarbinding = ToolbarBinding.inflate(layoutInflater)
+
         setContentView(mainbinding.root)
 
-//        webView = binding.webView
-//        webView.settings.javaScriptEnabled = true
-//        webView.settings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
-////        webView.webViewClient = object : WebViewClient(){
-////            override fun onRecievedSslError(view: WebView?, handler: SslErrorHandler?, error: SslError?){
-////                handler?.proceed()
-////            }
-////        }
-//        // sk Puzzle map
-//        webView.loadUrl("https://puzzle.geovision.co.kr/map?lat=37.52772172963041&lng=127.03519374778266&zoom=14&poiId=0&overlayType=")
+        ivMenu = toolbarbinding.ivMenu
+        drawerLayout = mainbinding.root
+        toolbar = toolbarbinding.root
+        button = mainbinding.prediction
 
+        setSupportActionBar(toolbar)
+
+        ivMenu.setOnClickListener{
+            drawerLayout.openDrawer(Gravity.LEFT)
+        }
+
+        button.setOnClickListener{
+            val intent = Intent(this@MainActivity, CongetionPrediction::class.java)
+            startActivity(intent)
+        }
 
         val congetioninfotxt = mainbinding.textHead
-        congetioninfotxt.text = "업데이트시간: " +
-                "장소: " +
-                "혼잡레벨: "
-
+        congetioninfotxt.text = "기준시간: \n\n" +
+                "지역 이름: \n\n" +
+                "위험도(혼잡도): "
 
         locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
         LocationInfo().startLocationService(locationManager)
