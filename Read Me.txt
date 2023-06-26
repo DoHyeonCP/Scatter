@@ -1,0 +1,34 @@
+-- 완료:
+1. android UI/UX 틀
+2. 위치 권한요청
+3. 위치 정보 서버로 보내기
+4. 위도경도기반 지오팬스 알고리즘
+5.  push알림 전송기능
+
+
+-- 가능한 것(시연)
+1. scattle 공유된 어플 다운
+2. mqtt 사용을 위한 mosquitto 다운로드
+  -- 방화벽 설정 꼭 해야함
+1) C:\Program Files\mosquitto 경로의 mosquitto.conf 파일을 관리자 권한 메모장으로 연다.
+2) 맨 하단
+listener 1883
+allow_anonymous true
+bind_address 0.0.0.0 //broker server pc ip
+입력 후저장 
+3) 이후 과정은 https://velog.io/@foxiq/MQTT-%EC%82%AC%EC%9A%A9
+3.서버 Run
+scatter_server/location_sub run
+
+
+
+-- 해야할 것: 
+1.push알림 디테일
+- push알림 보내는 조건(거리 && 혼잡도레벨 일정이상)
+- 어플 알림 허용 요청하기(수동으로 허용하면 우선 시연 가능함)
+- firebase 토큰으로 기기 식별이 가능하다면 로그인 기능 만들필요 없음 아니면 로그인 만들어야함(mqtt로 id 없이 보내면 일괄 push알람 갈 것임)
+2. sk api 가져와서 홈화면에 정보 송출(서버에서 가져와 android에서 1시간에한번 업데이트하는게 배터리 절약에 좋을듯함
+3. wearable 어플 제작
+4. 피드백 받은 android UI/UX 수정
+5. 예측 그래프 가져오기
+6. 앱 배포

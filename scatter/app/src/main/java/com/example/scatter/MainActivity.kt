@@ -17,6 +17,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
 import com.example.scatter.databinding.MainActivityBinding
 import com.example.scatter.databinding.ToolbarBinding
+import com.google.firebase.messaging.FirebaseMessaging
 
 class MainActivity : AppCompatActivity() {
     private lateinit var mainbinding: MainActivityBinding
@@ -30,6 +31,9 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var button : Button
 
+    companion object {
+        private const val TAG = "MainActivity"
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
@@ -61,6 +65,11 @@ class MainActivity : AppCompatActivity() {
 
         locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
         LocationInfo().startLocationService(locationManager)
+
+        FirebaseMessaging.getInstance().token
+            .addOnSuccessListener { token ->
+                Log.d(TAG, "Token: $token")
+            }
     }
 
     override fun onResume() {
