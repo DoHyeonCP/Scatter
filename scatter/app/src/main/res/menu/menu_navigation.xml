@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_home"
+        android:title="첫 화면으로 돌아가기" />
+    <item
+        android:id="@+id/nav_profile"
+        android:title="(로그인이 필요할까요)" />
+    <item
+        android:id="@+id/nav_settings"
+        android:title="설정" />
+    <item
+        android:id="@+id/lotteWorld"
+        android:title="롯데월드" />
+    <item
+        android:id="@+id/lotteAround"
+        android:title="롯데월드 주변" />
+    <item
+        android:id="@+id/avenuelJamsil"
+        android:title="에비뉴엘 잠실점" />
+    <item
+        android:id="@+id/lotteWorldMall"
+        android:title="롯데월드몰" />
+    <item
+        android:id="@+id/bangiDong"
+        android:title="방이동 먹자골복" />
+    <item
+        android:id="@+id/oplmpic_park"
+        android:title="올림픽공원" />
+
+</menu>
