@@ -1,5 +1,6 @@
 package com.example.scatter
 
+import android.app.Notification.WearableExtender
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
@@ -40,11 +41,15 @@ class FirebaseMessagingService : FirebaseMessagingService(){
             .setAutoCancel(true)
             .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
             .setVibrate(longArrayOf(1,1000))
+            .extend(WearableExtender)
 
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
 
         notificationManager.notify(0, mBuilder.build())
 
         mBuilder.setContentIntent(contentIntent)
     }
+
+    val WearableExtender = NotificationCompat.WearableExtender()
 }
