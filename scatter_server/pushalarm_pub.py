@@ -27,4 +27,4 @@ def pushalarm(area):
 
 
 
-pushalarm("롯데월드")
+# pushalarm("롯데월드")
