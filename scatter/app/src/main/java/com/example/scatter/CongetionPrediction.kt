@@ -30,6 +30,6 @@ class CongetionPrediction : AppCompatActivity() {
             }
         }
 
-        webView.loadUrl("naver.com")
+        webView.loadUrl("www.naver.com")
     }
 }

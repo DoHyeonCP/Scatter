@@ -3,9 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="50dp"
+    android:layout_height="70dp"
     app:contentInsetStart="0dp"
-    android:background="@android:color/holo_blue_dark">
+    android:background="#10316B">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -13,41 +13,33 @@
 
         <ImageView
             android:id="@+id/iv_menu"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            app:srcCompat="@drawable/ic_menu" />
+            android:layout_marginLeft = "5dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="5dp"
+            app:srcCompat="@drawable/menu_burger" />
 
-        <TextView
-            android:id="@+id/tv_logo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="15dp"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:textColor="@android:color/white"
-            android:textSize="18sp"
-            android:text="Scatter" />
+<!--        <ImageView-->
+<!--            android:id="@+id/exit"-->
+<!--            android:layout_width="40dp"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:layout_alignParentStart="true"-->
+<!--            android:layout_alignParentTop="true"-->
+<!--            android:layout_alignParentBottom="true"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            android:layout_marginBottom="1dp"-->
+<!--            app:srcCompat="@drawable/menu_burger" />-->
 
         <ImageView
-            android:id="@+id/exit"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            app:srcCompat="@drawable/ic_menu" />
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="5dp"
+            app:srcCompat="@drawable/congestionlogo" />
 
     </RelativeLayout>
 
