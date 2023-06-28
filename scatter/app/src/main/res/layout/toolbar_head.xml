@@ -6,29 +6,28 @@
     android:background="#10316B">
 
     <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="34dp"
-        android:layout_height="65dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft = "8dp"
+        android:id="@+id/location_image"
+        android:layout_width="17dp"
+        android:layout_height="41dp"
+        android:layout_marginLeft="3dp"
+        android:layout_marginTop="20dp"
         app:srcCompat="@drawable/location_dot" />
 
     <TextView
-        android:layout_width="290dp"
-        android:layout_height="68dp"
+        android:layout_width="190dp"
+        android:layout_height="69dp"
         android:layout_marginTop="7dp"
         android:gravity="center"
         android:text="지역을 선택해 주세요!"
         android:textColor="@android:color/white"
-        android:textSize="27dp"
+        android:textSize="20dp"
         android:textStyle="bold" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/close_menu"
         android:layout_width="40dp"
-        android:layout_height="45dp"
+        android:layout_height="54dp"
         android:layout_marginTop="18dp"
-        android:layout_marginRight="0dp"
         android:layout_weight="5"
         app:srcCompat="@drawable/close" />
 

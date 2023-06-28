@@ -2,21 +2,43 @@ package com.example.scatter
 
 import android.content.ContentValues.TAG
 import android.util.Log
-import android.widget.EditText
-import com.example.scatter.databinding.MainActivityBinding
+import androidx.appcompat.app.AppCompatActivity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import okhttp3.*
 import org.json.JSONObject
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import java.io.IOException
 
-class SkApi {
-    lateinit var edittext : EditText
-    lateinit var data: String
+class DjnagoApi{
+    private lateinit var  apiService: UpdateApiService
+    private val BASE_URL = ""
+
+    fun calljson(){
+        val retrofit = Retrofit.Builder()
+            .baseUrl("$BASE_URL")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        apiService = retrofit.create(UpdateApiService::class.java)
+
+        CoroutineScope(Dispatchers.IO).launch{
+            try{
+                val data = apiService.getData()
+                // 데이터 파싱처리
+//                jsonPharshing(data)
+            } catch (e: Exception){
+                e.printStackTrace()
+            }
+        }
+    }
+
+
     var update_date = ""
     var area = ""
     var congestion_level = ""
-
-    fun calljson(){
-        // 어떤 서버에서 어떤 db로 저장된 어떤 파일을 가져올 것인가.
-    }
-
     fun jsonPharshing(){
         val testarea = "post1"
         val jsonString = """

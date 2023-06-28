@@ -23,14 +23,14 @@ scatter_server/location_sub run
 
 
 -- 해야할 것: 
-1. menu_burger 드래그가 아닌 클릭 시 toolbar 열림
-- 툴바를 닫을 대는 X 클릭
+1. menu_burger 드래그가 아닌 클릭 시 toolbar 열림 - 해결 못함..
+- 툴바를 닫을 대는 X 클릭 - 마지막에 다시확인 시갑없다
 
 2. toolbar에서 지역 선택 시 textview에 업데이트 되어 있는 정보 출력
-- aws or django 서버에서 api를 통해 json으로 정보 가져오기
-- 파싱된 정보 item에 저장하기
+- django 서버에서 api를 통해 json으로 정보 가져오기: android에서 가져오는 retrofit을 활용해 가져오는 함수 구현완료
+- 파싱된 정보 item에 저장하기: 저장하는 함수 구현해야함
 - toolbar에서 지역 선택 시 item에 저장된 데이터 texview에 출력
-- 예측 그래프 WebView연결(아닐 수도 있음)
+- 예측 그래프 WebView연결
 
 3. push 알림
 - 서버에서 받은 위치 정보가 혼잡 지역 근처에 갈경우 push 전송

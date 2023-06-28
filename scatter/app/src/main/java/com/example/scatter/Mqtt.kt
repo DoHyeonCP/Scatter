@@ -8,7 +8,7 @@ class Mqtt {
     private lateinit var mqttClient : MqttClient
 
     fun sendLocationToServer(latitude: Double, longitude: Double) {
-        val brokerUrl = "tcp://115.21.135.45:1883"
+        val brokerUrl = "tcp://192.168.20.5:1883"
         val clientId = "Phone_GPS"
 //        val payload = "disconnected".toByteArray(Charsets.UTF_8)
         try {
