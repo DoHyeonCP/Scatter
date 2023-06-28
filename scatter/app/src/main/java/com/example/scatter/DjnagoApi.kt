@@ -26,7 +26,7 @@ class DjnagoApi{
 
         CoroutineScope(Dispatchers.IO).launch{
             try{
-                val data = apiService.getData()
+                val data = apiService.getData(update_date, area, congestion_level)
                 // 데이터 파싱처리
 //                jsonPharshing(data)
             } catch (e: Exception){
