@@ -14,8 +14,10 @@ def on_connect(client, userdata, flags, rc):
 
 def on_message(client, userdata, msg):
     payload = msg.payload.decode()
-    latitude, longitude = map(float, payload.split(','))
-    area = geo_distance(latitude , longitude)
+    latitude, longitude = map(float, payload.split(',')[:2])
+    firebasetoken = payload.split(',')[2]
+    geo_distance(latitude , longitude, firebasetoken)
+    firebasetoken = ""
 
     # 지역 내에 들어오면 알림 보내기 && 혼잡도
     # if area != area:
