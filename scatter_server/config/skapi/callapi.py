@@ -34,6 +34,7 @@ def SkOpenApi(url): # json serialize
 def sk_api_pois_congetion(poiid):
     app_key = settings.SK_APP_KEY
     json_data = SkOpenApi(f'https://apis.openapi.sk.com/puzzle/place/congestion/rltm/pois/{poiid}?appkey={app_key}')
+
     json_obj = SkJsonPoisData(
         sk_pois_data = json_data
     )
@@ -42,11 +43,15 @@ def sk_api_pois_congetion(poiid):
 def sk_api_areas_congetion(areaid):
     app_key = settings.SK_APP_KEY
     json_data = SkOpenApi(f'https://apis.openapi.sk.com/puzzle/place/congestion/rltm/areas/{areaid}?appkey={app_key}')
+    
     json_obj = SKJsonAreasData(
         sk_areas_data = json_data
     )
     json_obj.save()
     
+def parsing(jsonfile):
+    jsonObject = json.loads(jsonfile)
+    area_id = 
 # def sk_api_pois_areas_congetion(poiid = None, areaid = None):
 #     app_key = settings.SK_APP_KEY
 #     areas_json_data = SkOpenApi(f'https://apis.openapi.sk.com/puzzle/place/congestion/stat/raw/hourly/areas/{areaid}?appkey={app_key}')

@@ -2,21 +2,17 @@ package com.example.scatter
 
 import android.content.ContentValues.TAG
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import okhttp3.*
 import org.json.JSONObject
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.io.IOException
 
-class DjnagoApi{
+class SkApi{
     private lateinit var  apiService: UpdateApiService
-    private val BASE_URL = ""
 
-    fun calljson(){
+    fun calljson(BASE_URL : String){
         val retrofit = Retrofit.Builder()
             .baseUrl("$BASE_URL")
             .addConverterFactory(GsonConverterFactory.create())

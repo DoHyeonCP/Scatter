@@ -28,6 +28,7 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.example.scatter.databinding.ToolbarHeadBinding
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
+import org.eclipse.paho.client.mqttv3.MqttMessage
 
 class MainActivity : AppCompatActivity() {
     private lateinit var mainbinding: MainActivityBinding
@@ -56,33 +57,20 @@ class MainActivity : AppCompatActivity() {
 
 
 
-        toolbar = findViewById(R.id.toolbar)
+        toolbar = findViewById(R.id.include)
         ivMenu = findViewById(R.id.iv_menu)
         close_menu = toolbarheadbinding.closeMenu
-        drawerLayout = findViewById(R.id.drawer_layout)
+//        drawerLayout = findViewById(R.layout.drawe)
 //        drawerbutton = findViewById(R.id.drawer_button)
 
         button = mainbinding.prediction
 
 //        setSupportActionBar(toolbar)
 
-        close_menu.setOnClickListener(){
+        close_menu.setOnClickListener() {
             drawerLayout.closeDrawer(Gravity.RIGHT)
         }
 
-
-        val items = arrayOf("롯데월드", "로그인")
-        val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, items)
-
-        listView = findViewById(R.id.drawer_menulist)
-
-        listView.setOnItemClickListener(AdapterView.OnItemClickListener{parent, view, position, id ->
-            when(position){
-                0 -> {
-                    Log.d("success","success")
-                }
-            }
-        })
 
 
 
@@ -99,24 +87,26 @@ class MainActivity : AppCompatActivity() {
 
         // 디버깅용 코드 3줄 SkApi에 지역을 넣었을 때 return 되도록 해야한다.
 
-        val skApi = DjnagoApi()
+        val skApi = SkApi()
         skApi.jsonPharshing()
         var u = skApi.update_date
         var a = skApi.area
         var c = skApi.congestion_level
         val congetioninfobody = mainbinding.textBody
         congetioninfobody.text =
-                "기준시간:      $u \n\n" +
-                "지역 이름:     $a \n\n" +
-                "위험도(혼잡도): $c \n\n"
+            "기준시간:      $u \n\n" +
+                    "지역 이름:     $a \n\n" +
+                    "위험도(혼잡도): $c \n\n"
 
 
         locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
         LocationInfo().startLocationService(locationManager)
 
 
-
-
+        FirebaseMessaging.getInstance().token
+            .addOnSuccessListener { token ->
+                Log.d("token", "$token")
+            }
     }
 
 
