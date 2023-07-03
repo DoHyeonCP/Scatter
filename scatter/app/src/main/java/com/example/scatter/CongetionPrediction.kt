@@ -29,16 +29,16 @@ class CongetionPrediction : AppCompatActivity() {
         setSupportActionBar(findViewById(R.id.main_toolbar))
 
 
-        webView = predictionBinding.predictionGraph
-        webView.settings.javaScriptEnabled = true
-        webView.settings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
-
-        webView.webViewClient = object : WebViewClient(){
-            override fun onReceivedSslError(view: WebView?, handler: SslErrorHandler?, error: SslError?){
-                handler?.proceed()
-            }
-        }
-
-        webView.loadUrl("https://www.naver.com")
+//        webView = predictionBinding.predictionGraph
+//        webView.settings.javaScriptEnabled = true
+//        webView.settings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
+//
+//        webView.webViewClient = object : WebViewClient(){
+//            override fun onReceivedSslError(view: WebView?, handler: SslErrorHandler?, error: SslError?){
+//                handler?.proceed()
+//            }
+//        }
+//
+//        webView.loadUrl("https://www.naver.com")
     }
 }

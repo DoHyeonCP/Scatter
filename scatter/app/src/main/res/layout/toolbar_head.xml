@@ -7,16 +7,16 @@
 
     <ImageView
         android:id="@+id/location_image"
-        android:layout_width="17dp"
+        android:layout_width="20dp"
         android:layout_height="41dp"
         android:layout_marginLeft="3dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         app:srcCompat="@drawable/location_dot" />
 
     <TextView
         android:layout_width="190dp"
         android:layout_height="69dp"
-        android:layout_marginTop="7dp"
+        android:layout_marginTop="15dp"
         android:gravity="center"
         android:text="지역을 선택해 주세요!"
         android:textColor="@android:color/white"
@@ -25,9 +25,10 @@
 
     <ImageView
         android:id="@+id/close_menu"
-        android:layout_width="40dp"
+        android:layout_width="20dp"
         android:layout_height="54dp"
-        android:layout_marginTop="18dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="25dp"
         android:layout_weight="5"
         app:srcCompat="@drawable/close" />
 

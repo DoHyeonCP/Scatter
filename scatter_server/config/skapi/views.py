@@ -66,11 +66,12 @@ sk_songpagu_pois_id = ["188485", "188592", "5783805", "5799878", "188633"]
 
 area = ["롯데월드", "방이동 먹자골목"] 
 pois = ["롯데백화점", "롯데마트제타플레닛", "에비뉴엘월드타우점", "롯데월드몰", "올림픽공원" ]
-# SK_APP_KEY = 'BFE8BDtYZK553WvHLrnHxagtLvBEypDq9ClJQpAs'
+SK_APP_KEY = 'BFE8BDtYZK553WvHLrnHxagtLvBEypDq9ClJQpAs'
 # SK_APP_KEY = 'RNM43SFreC8YwWjFIAGHY4VIpOi6jDHG98AHf7rN'
 # SK_APP_KEY = 'e8wHh2tya84M88aReEpXCa5XTQf3xgo01aZG39k5'
-SK_APP_KEY = '6nPa8A9ij41zGV7x7QAeR9x9y3MuLPEgjiHjbhhc'
-
+# SK_APP_KEY = '6nPa8A9ij41zGV7x7QAeR9x9y3MuLPEgjiHjbhhc'
+# SK_APP_KEY = 'W9DXjZKgAg4bVZwjN90m14SxPppyMoRzcYiBAB72'
+# SK_APP_KEY = 'Tt3yyROHTM8op2hEyv1Z34AXC2x8KPbn1iuD5Hlc'
 area = ["롯데월드", "방이동먹자골목", "롯데백화점", "롯데마트제타플레닛", "에비뉴엘월드타워점", "롯데월드몰", "올림픽공원" ]
 
 
@@ -84,7 +85,6 @@ def SkOpenApi(url): # json serialize
 
 def sk_api_areas_congetion(areaid, num, area):
     app_key = SK_APP_KEY
-    
     jsonobject = SkOpenApi(f'https://apis.openapi.sk.com/puzzle/place/congestion/rltm/areas/{areaid}?appkey={app_key}')
     congestion = jsonobject['contents']['rltm']['congestionLevel']
     datetime = jsonobject['contents']['rltm']['datetime']
@@ -126,15 +126,45 @@ def sk_api_pois_congetion(poiid,num,area):
   return areainfo
     
 def get_sk_hotspots(request):
-    area_count = 0
-    for sk_areaid in sk_songpagu_areas_id:
-        areainfo = sk_api_areas_congetion(sk_areaid, area_count, area)
-        area_count += 1
-    print("sk_area_finish")
-    for sk_poiid in sk_songpagu_pois_id:
-        areainfo = sk_api_pois_congetion(sk_poiid, area_count, area)
-        area_count += 1
+    # area_count = 0
+    # for sk_areaid in sk_songpagu_areas_id:
+    #     areainfo = sk_api_areas_congetion(sk_areaid, area_count, area)
+    #     area_count += 1
+    # print("sk_area_finish")
+    # for sk_poiid in sk_songpagu_pois_id:
+    #     areainfo = sk_api_pois_congetion(sk_poiid, area_count, area)
+    #     area_count += 1
+    # json_data = json.dumps(areainfo,ensure_ascii=False)
 
-    json_data = json.dumps(areainfo,ensure_ascii=False)
-
+    congestion_level = "위험"
+    areainfo["롯데월드"] = {
+        "datetime" : "2023년7월4일",
+        "congestion_level" : congestion_level
+    }
     return JsonResponse(areainfo, json_dumps_params={'ensure_ascii': False}, safe=False, content_type='application/json')
+
+
+롯데백화점잠실점 = {
+    "status": {
+      "code": "00",
+      "message": "success",
+      "totalCount": 1
+    },
+    "contents": {
+      "poiId": "188485",
+      "poiName": "롯데백화점잠실점",
+      "rltm": [
+        {
+          "datetime": "20230704012000",
+          "congestion": 0.00004,
+          "congestionLevel": 1,
+          "type": 1
+        }
+      ]
+    }
+  }
+
+    
+
+롯데월드 ={"status": {"code": "00","message": "success","totalCount": 1},"contents": {"areaId": "9273","areaName": "롯데월드","rltm": {"congestion": 0.01541,"congestionLevel": 1,"datetime": "20230701002000"}}}
+

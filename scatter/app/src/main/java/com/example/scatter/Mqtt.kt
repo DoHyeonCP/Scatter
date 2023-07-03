@@ -9,7 +9,7 @@ import org.eclipse.paho.client.mqttv3.*
 
 class Mqtt {
     private lateinit var mqttClient : MqttClient
-    val brokerUrl = "tcp://192.168.20.27:1883"
+    val brokerUrl = "tcp://115.21.135.45:1883"
 
     fun sendLocationToServer(latitude: Double, longitude: Double) {
 
