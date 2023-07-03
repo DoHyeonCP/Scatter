@@ -68,16 +68,10 @@ area = ["롯데월드", "방이동 먹자골목"]
 pois = ["롯데백화점", "롯데마트제타플레닛", "에비뉴엘월드타우점", "롯데월드몰", "올림픽공원" ]
 # SK_APP_KEY = 'BFE8BDtYZK553WvHLrnHxagtLvBEypDq9ClJQpAs'
 # SK_APP_KEY = 'RNM43SFreC8YwWjFIAGHY4VIpOi6jDHG98AHf7rN'
-SK_APP_KEY = 'e8wHh2tya84M88aReEpXCa5XTQf3xgo01aZG39k5'
+# SK_APP_KEY = 'e8wHh2tya84M88aReEpXCa5XTQf3xgo01aZG39k5'
+SK_APP_KEY = '6nPa8A9ij41zGV7x7QAeR9x9y3MuLPEgjiHjbhhc'
 
 area = ["롯데월드", "방이동먹자골목", "롯데백화점", "롯데마트제타플레닛", "에비뉴엘월드타워점", "롯데월드몰", "올림픽공원" ]
-
-
-# 잠실역, 잠실역 롯데월드, 방이동 먹자골목
-sk_songpagu_areas_id = ["9273", "9270"]
-
-# 롯데월드어드벤처, 롯데월드잠실점, 롯데백화점잠실점, 롯데마트제타플레
-sk_songpagu_pois_id = ["188485", "188592", "5783805", "5799875", "188633"]
 
 
 def SkOpenApi(url): # json serialize
@@ -90,6 +84,7 @@ def SkOpenApi(url): # json serialize
 
 def sk_api_areas_congetion(areaid, num, area):
     app_key = SK_APP_KEY
+    
     jsonobject = SkOpenApi(f'https://apis.openapi.sk.com/puzzle/place/congestion/rltm/areas/{areaid}?appkey={app_key}')
     congestion = jsonobject['contents']['rltm']['congestionLevel']
     datetime = jsonobject['contents']['rltm']['datetime']
@@ -143,31 +138,3 @@ def get_sk_hotspots(request):
     json_data = json.dumps(areainfo,ensure_ascii=False)
 
     return JsonResponse(areainfo, json_dumps_params={'ensure_ascii': False}, safe=False, content_type='application/json')
-
-# sample_area = {
-#   "롯데월드" : {
-# 		"datetime" : 2222220000
-# 		"area" : "롯데월드",
-# 		"congestion_level" = 222,
-#   }
-# }
-
-sample_pois = {
-  "status": {
-    "code": "00",
-    "message": "success",
-    "totalCount": 1
-  },
-  "contents": {
-    "poiId": "6967166",
-    "poiName": "\ub86f\ub370\uc6d4\ub4dc\uc5b4\ub4dc\ubca4\uccd0",
-    "rltm": [
-      {
-        "datetime": "20230701000000",
-        "congestion": 0.00143,
-        "congestionLevel": 1,
-        "type": 1
-      }
-    ]
-  }
-}

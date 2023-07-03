@@ -10,7 +10,7 @@
     tools:context=".MainActivity">
 
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -18,20 +18,20 @@
         <!-- 상단 바 -->
         <include layout= "@layout/main_layout" />
 
-        <!-- 텍스트뷰 -->
 
 
         <ImageView
             android:id="@+id/jamsil_map"
             android:layout_width="match_parent"
+            android:layout_marginTop = "70dp"
             android:layout_height="400dp"
             android:scaleType = "fitXY"
             app:srcCompat="@drawable/jamsil_map" />
-
         <TextView
             android:id="@+id/textbody"
             android:layout_width="match_parent"
             android:layout_height="180dp"
+            android:layout_marginTop = "470dp"
             android:text="왼쪽 상단 메뉴바를 클릭"
             android:textSize = "30dp"
             android:textStyle="bold" />
@@ -39,12 +39,49 @@
             android:id="@+id/prediction"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:layout_marginTop = "650dp"
             android:background="#E25822"
             android:text="예측된 인구혼잡 결과 보러가기"
             android:textColor="@color/white"
             android:textSize="25dp"
             android:textStyle="bold" />
-    </LinearLayout>
+        <ImageView
+            android:id="@+id/location_dot_lotteworld"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop = "400dp"
+            android:layout_marginStart="5dp"
+            app:srcCompat="@drawable/location_dot" />
+        <ImageView
+            android:id="@+id/location_dot_avinual"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="56dp"
+            android:layout_marginTop="320dp"
+            app:srcCompat="@drawable/location_dot" />
+        <ImageView
+            android:id="@+id/location_dot_mall"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="90dp"
+            android:layout_marginTop="300dp"
+            app:srcCompat="@drawable/location_dot" />
+        <ImageView
+            android:id="@+id/location_dot_bangi"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="140dp"
+            android:layout_marginTop="310dp"
+            app:srcCompat="@drawable/location_dot" />
+        <ImageView
+            android:id="@+id/location_dot_olimpic"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="280dp"
+            android:layout_marginTop="160dp"
+            app:srcCompat="@drawable/location_dot" />
+
+    </FrameLayout>
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigation"

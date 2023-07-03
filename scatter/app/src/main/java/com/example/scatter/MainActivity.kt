@@ -15,6 +15,8 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isInvisible
+import androidx.core.view.marginBottom
 import androidx.drawerlayout.widget.DrawerLayout
 import com.example.scatter.databinding.MainActivityBinding
 import com.google.firebase.messaging.FirebaseMessaging
@@ -42,6 +44,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var textbody : TextView
     private lateinit var navigationView: NavigationView
     private lateinit var  apiService: ApiService
+    private lateinit var map : ImageView
+    private lateinit var location_dot1 : ImageView
+    private lateinit var location_dot2 : ImageView
+    private lateinit var location_dot3 : ImageView
+    private lateinit var location_dot4 : ImageView
+    private lateinit var location_dot5 : ImageView
 
     companion object {
         private const val TAG = "MainActivity"
@@ -53,12 +61,22 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         mainbinding = MainActivityBinding.inflate(layoutInflater)
 
         setContentView(mainbinding.root)
-
         ivMenu = findViewById(R.id.iv_menu)
         drawerLayout = findViewById(R.id.drawblelayout)
         button = mainbinding.prediction
         textbody = mainbinding.textbody
         navigationView = findViewById(R.id.navigation)
+        location_dot1 = mainbinding.locationDotLotteworld
+        location_dot2 = mainbinding.locationDotAvinual
+        location_dot3 = mainbinding.locationDotMall
+        location_dot4 = mainbinding.locationDotBangi
+        location_dot5 = mainbinding.locationDotOlimpic
+
+        location_dot1.setColorFilter(R.color.black)
+        location_dot2.setColorFilter(R.color.black)
+        location_dot3.setColorFilter(R.color.black)
+        location_dot4.setColorFilter(R.color.black)
+        location_dot5.setColorFilter(R.color.black)
 
 
         setSupportActionBar(findViewById(R.id.main_toolbar))
@@ -68,7 +86,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             val intent = Intent(this@MainActivity, CongetionPrediction::class.java)
             startActivity(intent)
         }
-
 
 
         locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
@@ -97,42 +114,78 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         when(item.itemId){
             R.id.lotteWorld -> {
                 call롯데월드()
+                location_dot1.setColorFilter(R.color.white)
+                location_dot2.setColorFilter(R.color.black)
+                location_dot3.setColorFilter(R.color.black)
+                location_dot4.setColorFilter(R.color.black)
+                location_dot5.setColorFilter(R.color.black)
             }
         }
         drawerLayout.closeDrawers() // 기능을 수행하고 네비게이션을 닫아준다.
         when(item.itemId){
             R.id.bangiDong -> {
                 call방이동먹자골목()
+                location_dot1.setColorFilter(R.color.black)
+                location_dot2.setColorFilter(R.color.black)
+                location_dot3.setColorFilter(R.color.black)
+                location_dot4.setColorFilter(R.color.white)
+                location_dot5.setColorFilter(R.color.black)
             }
         }
         drawerLayout.closeDrawers() // 기능을 수행하고 네비게이션을 닫아준다.
         when(item.itemId){
             R.id.lottedpartment -> {
                 call롯데백화점()
+                location_dot1.setColorFilter(R.color.white)
+                location_dot2.setColorFilter(R.color.black)
+                location_dot3.setColorFilter(R.color.black)
+                location_dot4.setColorFilter(R.color.black)
+                location_dot5.setColorFilter(R.color.black)
+
             }
         }
         drawerLayout.closeDrawers() // 기능을 수행하고 네비게이션을 닫아준다.
         when(item.itemId){
             R.id.zplanet -> {
                 call롯데마트제타플레닛()
+                location_dot1.setColorFilter(R.color.white)
+                location_dot2.setColorFilter(R.color.black)
+                location_dot3.setColorFilter(R.color.black)
+                location_dot4.setColorFilter(R.color.black)
+                location_dot5.setColorFilter(R.color.black)
             }
         }
         drawerLayout.closeDrawers() // 기능을 수행하고 네비게이션을 닫아준다.
         when(item.itemId){
             R.id.avenuelJamsil -> {
                 call에비뉴엘월드타워점()
+                location_dot1.setColorFilter(R.color.black)
+                location_dot2.setColorFilter(R.color.white)
+                location_dot3.setColorFilter(R.color.black)
+                location_dot4.setColorFilter(R.color.black)
+                location_dot5.setColorFilter(R.color.black)
             }
         }
         drawerLayout.closeDrawers() // 기능을 수행하고 네비게이션을 닫아준다.
         when(item.itemId){
             R.id.lotteWorldmall -> {
                 call롯데월드몰()
+                location_dot1.setColorFilter(R.color.black)
+                location_dot2.setColorFilter(R.color.black)
+                location_dot3.setColorFilter(R.color.white)
+                location_dot4.setColorFilter(R.color.black)
+                location_dot5.setColorFilter(R.color.black)
             }
         }
         drawerLayout.closeDrawers() // 기능을 수행하고 네비게이션을 닫아준다.
         when(item.itemId){
             R.id.oplmpicPark -> {
                 call올림픽공원()
+                location_dot1.setColorFilter(R.color.black)
+                location_dot2.setColorFilter(R.color.black)
+                location_dot3.setColorFilter(R.color.black)
+                location_dot4.setColorFilter(R.color.black)
+                location_dot5.setColorFilter(R.color.white)
             }
         }
         drawerLayout.closeDrawers() // 기능을 수행하고 네비게이션을 닫아준다.
@@ -155,7 +208,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
     fun call롯데월드(){
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://192.168.20.27:8000/")
+            .baseUrl("http://115.21.135.45:8000/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         apiService = retrofit.create(ApiService::class.java)
@@ -172,9 +225,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
                         val congetioninfobody = textbody
                         congetioninfobody.setTextColor(Color.BLACK)
-                        congetioninfobody.text = "기준시간:${datetime} \n\n" +
-                                "지역 이름: 롯데월드 \n\n" +
-                                "위험도: $congestionLevel \n\n"
+                        congetioninfobody.text = "기준시간:${datetime} \n" +
+                                "지역이름: 롯데월드 \n" +
+                                "위험도: $congestionLevel \n"
 
                     }
                 } else{

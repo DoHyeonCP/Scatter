@@ -9,6 +9,7 @@ import android.media.RingtoneManager
 import android.util.Log
 
 import androidx.core.app.NotificationCompat
+import androidx.core.graphics.red
 
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
@@ -35,10 +36,12 @@ class FirebaseMessagingService : FirebaseMessagingService(){
         )
 
         val mBuilder = NotificationCompat.Builder(this, "channal_id")
-            .setSmallIcon(R.mipmap.ic_launcher)
+            .setSmallIcon(R.drawable.congestion_emo)
             .setContentTitle(title)
             .setContentText(msg)
             .setAutoCancel(true)
+
+
             .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
             .setVibrate(longArrayOf(1,1000))
             .extend(WearableExtender)
@@ -52,4 +55,6 @@ class FirebaseMessagingService : FirebaseMessagingService(){
     }
 
     val WearableExtender = NotificationCompat.WearableExtender()
+        .setContentAction(R.drawable.congestion_emo.red)
+
 }
