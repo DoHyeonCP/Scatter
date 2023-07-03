@@ -7,8 +7,10 @@ import android.content.ClipData.Item
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.location.LocationManager
 import android.os.Bundle
+import android.provider.ContactsContract.Data
 import android.util.Log
 import android.view.Gravity
 import android.view.Menu
@@ -31,8 +33,6 @@ import com.example.scatter.databinding.ToolbarBinding
 import com.google.firebase.messaging.FirebaseMessaging
 import com.example.scatter.databinding.ToolbarHeadBinding
 import com.google.android.material.navigation.NavigationView
-import com.example.scatter.SkApi.Companion.update_date
-import com.example.scatter.SkApi.Companion.congestion_level
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -40,54 +40,47 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.eclipse.paho.client.mqttv3.MqttMessage
 import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import com.example.scatter.ApiResponse
+import com.google.gson.annotations.SerializedName
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.URL
+import java.text.SimpleDateFormat
+import java.util.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     private lateinit var mainbinding: MainActivityBinding
     private lateinit var locationManager: LocationManager
-    private lateinit var toolbarbinding: ToolbarBinding
     private lateinit var ivMenu : ImageView
-    private lateinit var close_menu: ImageView
     private lateinit var drawerLayout: DrawerLayout
-    private lateinit var toolbar: Toolbar
-    private lateinit var toolbarheadbinding: ToolbarHeadBinding
     private lateinit var button: Button
-    private lateinit var drawerbutton : Button
-    private lateinit var listView: ListView
     private lateinit var textbody : TextView
     private lateinit var navigationView: NavigationView
     private lateinit var  apiService: ApiService
-    private lateinit var update_date : String
-    private lateinit var area : String
-    private lateinit var congestion_level : String
-    private lateinit var skApi: SkApi
     companion object {
         private const val TAG = "MainActivity"
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+        override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
         mainbinding = MainActivityBinding.inflate(layoutInflater)
 
         setContentView(mainbinding.root)
 
-
-//        toolbar = findViewById(R.id.include)
         ivMenu = findViewById(R.id.iv_menu)
         drawerLayout = findViewById(R.id.drawblelayout)
-//        drawerbutton = findViewById(R.id.drawer_button)
         button = mainbinding.prediction
         textbody = mainbinding.textbody
         navigationView = findViewById(R.id.navigation)
 
+
         setSupportActionBar(findViewById(R.id.main_toolbar))
-//        supportActionBar?.setDisplayHomeAsUpEnabled(true) // 드로어를 꺼낼 홈 버튼 활성화
-//        supportActionBar?.setHomeAsUpIndicator(R.drawable.menu_burger) // 홈버튼 이미지 변경
 
 
         button.setOnClickListener {
@@ -95,13 +88,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             startActivity(intent)
         }
 
-
-//        val congetioninfohead = mainbinding.textHead
-//        congetioninfohead.text = " \n\n" +
-//                "지역 이름: \n\n" +
-//                 "
-
-        // 디버깅용 코드 3줄 SkApi에 지역을 넣었을 때 return 되도록 해야한다.
 
 
 
@@ -124,127 +110,53 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     }
 
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//
-//        when(item.itemId){
-//            android.R.id.home->{ // 메뉴 버튼
-//                drawerLayout.openDrawer(Gravity.LEFT)    // 네비게이션 드로어 열기
-//            }
-//        }
-//        return super.onOptionsItemSelected(item)
-//    }
-
-
-    inner class NetworkThread: Thread(){
-        override fun run(){
-            val site = "http:127.0.0.1:8000/api-sk/"
-            var url = URL(site)
-            val conn = url.openConnection()
-            var input = conn.getInputStream()
-            var isr = InputStreamReader(input)
-            var br = BufferedReader(isr)
-
-            var str: String? = null
-            var buf = StringBuffer()
-
-            do{
-                str = br.readLine()
-                if(str!=null){
-                    buf.append(str)
-                }
-            }while(str!=null)
-
-            val root = JSONObject(buf.toString())
-            val area = "롯데월드"
-            val jObject = root.getJSONObject("$area")
-
-            runOnUiThread{
-                for(i in 0 until jObject.length()){
-                    val item = jObject.getJSONObject(i.toString())
-
-//                    textbody.append("$area")
-                    textbody.append("${JSON_Parse(item, "datetime")}")
-                    textbody.append("${JSON_Parse(item, "congestion_level")}")
-                }
-            }
 
 
 
-        }
-        fun JSON_Parse(obj:JSONObject, data : String): String {
 
-            // 원하는 정보를 불러와 리턴받고 없는 정보는 캐치하여 "없습니다."로 리턴받는다.
-            return try {
-
-                obj.getString(data)
-
-            } catch (e: Exception) {
-                "없습니다."
-            }
-        }
-    }
-
-//    fun itemclickAction(area: String){
-//        skApi = SkApi()
-//        skApi.calljson(area)
-//
-//
-//        val update_date = SkApi.update_date
-//        val congestion_level = SkApi.congestion_level
-//        Log.d(ContentValues.TAG, "update_date: $update_date")
-//        Log.d(ContentValues.TAG, "area: $area")
-//        Log.d(ContentValues.TAG, "congestion_level: $congestion_level")
-//        val congetioninfobody = textbody
-//        congetioninfobody.text = "기준시간:$update_date \n\n" +
-//                    "지역 이름:     $area \n\n" +
-//                    "위험도(혼잡도): $congestion_level \n\n"
-//    }
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             R.id.lotteWorld -> {
-                val thread = NetworkThread()
-                thread.start()
-                thread.join()
-//                itemclickAction("롯데월드")
+                call롯데월드()
             }
         }
         drawerLayout.closeDrawers() // 기능을 수행하고 네비게이션을 닫아준다.
-//        when(item.itemId){
-//            R.id.bangiDong -> {
-//                itemclickAction("방이동먹자골목")
-//            }
-//        }
-//        drawerLayout.closeDrawers() // 기능을 수행하고 네비게이션을 닫아준다.
-//        when(item.itemId){
-//            R.id.lottedpartment -> {
-//                itemclickAction("롯데백화점")
-//            }
-//        }
-//        drawerLayout.closeDrawers() // 기능을 수행하고 네비게이션을 닫아준다.
-//        when(item.itemId){
-//            R.id.zplanet -> {
-//                itemclickAction("롯데월드제타플레닛")
-//            }
-//        }
-//        drawerLayout.closeDrawers() // 기능을 수행하고 네비게이션을 닫아준다.
-//        when(item.itemId){
-//            R.id.avenuelJamsil -> {
-//                itemclickAction("에비뉴엘월드타워점")
-//            }
-//        }
-//        drawerLayout.closeDrawers() // 기능을 수행하고 네비게이션을 닫아준다.
-//        when(item.itemId){
-//            R.id.lotteWorldmall -> {
-//                itemclickAction("롯데월드몰")
-//            }
-//        }
-//        drawerLayout.closeDrawers() // 기능을 수행하고 네비게이션을 닫아준다.
-//        when(item.itemId){
-//            R.id.oplmpicPark -> {
-//                itemclickAction("올림픽공원")
-//            }
-//        }
-//        drawerLayout.closeDrawers() // 기능을 수행하고 네비게이션을 닫아준다.
+        when(item.itemId){
+            R.id.bangiDong -> {
+                call방이동먹자골목()
+            }
+        }
+        drawerLayout.closeDrawers() // 기능을 수행하고 네비게이션을 닫아준다.
+        when(item.itemId){
+            R.id.lottedpartment -> {
+                call롯데백화점()
+            }
+        }
+        drawerLayout.closeDrawers() // 기능을 수행하고 네비게이션을 닫아준다.
+        when(item.itemId){
+            R.id.zplanet -> {
+                call롯데마트제타플레닛()
+            }
+        }
+        drawerLayout.closeDrawers() // 기능을 수행하고 네비게이션을 닫아준다.
+        when(item.itemId){
+            R.id.avenuelJamsil -> {
+                call에비뉴엘월드타워점()
+            }
+        }
+        drawerLayout.closeDrawers() // 기능을 수행하고 네비게이션을 닫아준다.
+        when(item.itemId){
+            R.id.lotteWorldmall -> {
+                call롯데월드몰()
+            }
+        }
+        drawerLayout.closeDrawers() // 기능을 수행하고 네비게이션을 닫아준다.
+        when(item.itemId){
+            R.id.oplmpicPark -> {
+                call올림픽공원()
+            }
+        }
+        drawerLayout.closeDrawers() // 기능을 수행하고 네비게이션을 닫아준다.
         return true
     }
 
@@ -261,6 +173,265 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         RequestPermissions().requestlocationpermission(this, this, locationManager)
         RequestPermissions().requestnotificationpermission(this, this)
         LocationInfo()
+    }
+    fun call롯데월드(){
+        val retrofit = Retrofit.Builder()
+            .baseUrl("http://192.168.20.27:8000/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+        apiService = retrofit.create(ApiService::class.java)
+
+        val call = apiService.getData()
+        call.enqueue(object : Callback<ApiResponse> {
+            override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
+                if (response.isSuccessful) {
+                    val apiResponse = response.body()
+                    if(apiResponse != null){
+                        val area = apiResponse.롯데월드
+                        val congestionLevel = area.congestionLevel
+                        val datetime = area.datetime
+
+                        val congetioninfobody = textbody
+                        congetioninfobody.setTextColor(Color.BLACK)
+                        congetioninfobody.text = "기준시간:${datetime} \n\n" +
+                                "지역 이름: 롯데월드 \n\n" +
+                                "위험도: $congestionLevel \n\n"
+
+                    }
+                } else{
+                    Log.e("API Error", "Request failed with code: ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
+                // API 요청 실패 처리
+                t.printStackTrace()
+            }
+        })
+
+    }
+
+    fun call방이동먹자골목(){
+        val retrofit = Retrofit.Builder()
+            .baseUrl("http://192.168.20.27:8000/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+        apiService = retrofit.create(ApiService::class.java)
+
+        val call = apiService.getData()
+        call.enqueue(object : Callback<ApiResponse> {
+            override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
+                if (response.isSuccessful) {
+                    val apiResponse = response.body()
+                    if(apiResponse != null){
+                        val area = apiResponse.방이동먹자골목
+                        val congestionLevel = area.congestionLevel
+                        val datetime = area.datetime
+
+                        val congetioninfobody = textbody
+                        congetioninfobody.setTextColor(Color.BLACK)
+                        congetioninfobody.text = "기준시간:$datetime \n" +
+                                "지역이름: 방이동먹자골목 \n" +
+                                "위험도:   $congestionLevel \n"
+
+                    }
+                } else{
+                    Log.e("API Error", "Request failed with code: ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
+                // API 요청 실패 처리
+                t.printStackTrace()
+            }
+        })
+
+    }
+    fun call롯데백화점(){
+        val retrofit = Retrofit.Builder()
+            .baseUrl("http://192.168.20.27:8000/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+        apiService = retrofit.create(ApiService::class.java)
+
+        val call = apiService.getData()
+        call.enqueue(object : Callback<ApiResponse> {
+            override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
+                if (response.isSuccessful) {
+                    val apiResponse = response.body()
+                    if(apiResponse != null){
+                        val area = apiResponse.롯데백화점
+                        val congestionLevel = area.congestionLevel
+                        val datetime = area.datetime
+
+                        val congetioninfobody = textbody
+                        congetioninfobody.setTextColor(Color.BLACK)
+                        congetioninfobody.text = "기준시간:$datetime \n" +
+                                "지역이름: 롯데백화점 \n" +
+                                "위험도:  $congestionLevel \n"
+
+                    }
+                } else{
+                    Log.e("API Error", "Request failed with code: ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
+                // API 요청 실패 처리
+                t.printStackTrace()
+            }
+        })
+
+    }
+    fun call롯데마트제타플레닛(){
+        val retrofit = Retrofit.Builder()
+            .baseUrl("http://192.168.20.27:8000/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+        apiService = retrofit.create(ApiService::class.java)
+
+        val call = apiService.getData()
+        call.enqueue(object : Callback<ApiResponse> {
+            override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
+                if (response.isSuccessful) {
+                    val apiResponse = response.body()
+                    if(apiResponse != null){
+                        val area = apiResponse.롯데마트제타플레닛
+                        val congestionLevel = area.congestionLevel
+                        val datetime = area.datetime
+
+                        val congetioninfobody = textbody
+                        congetioninfobody.setTextColor(Color.BLACK)
+                        congetioninfobody.text = "기준시간:$datetime \n" +
+                                "지역이름: 롯데마트제타플레닛 \n" +
+                                "위험도:   $congestionLevel \n"
+
+                    }
+                } else{
+                    Log.e("API Error", "Request failed with code: ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
+                // API 요청 실패 처리
+                t.printStackTrace()
+            }
+        })
+
+    }
+    fun call에비뉴엘월드타워점(){
+        val retrofit = Retrofit.Builder()
+            .baseUrl("http://192.168.20.27:8000/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+        apiService = retrofit.create(ApiService::class.java)
+
+        val call = apiService.getData()
+        call.enqueue(object : Callback<ApiResponse> {
+            override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
+                if (response.isSuccessful) {
+                    val apiResponse = response.body()
+                    if(apiResponse != null){
+                        val area = apiResponse.에비뉴엘월드타워점
+                        val congestionLevel = area.congestionLevel
+                        val datetime = area.datetime
+
+                        val congetioninfobody = textbody
+                        congetioninfobody.setTextColor(Color.BLACK)
+                        congetioninfobody.text = "기준시간:$datetime \n" +
+                                "지역이름: 에비뉴엘월드타워점 \n" +
+                                "위험도:   $congestionLevel \n"
+
+                    }
+                } else{
+                    Log.e("API Error", "Request failed with code: ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
+                // API 요청 실패 처리
+                t.printStackTrace()
+            }
+        })
+
+    }
+    fun call롯데월드몰(){
+        val retrofit = Retrofit.Builder()
+            .baseUrl("http://192.168.20.27:8000/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+        apiService = retrofit.create(ApiService::class.java)
+
+        val call = apiService.getData()
+        call.enqueue(object : Callback<ApiResponse> {
+            override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
+                if (response.isSuccessful) {
+                    val apiResponse = response.body()
+                    if(apiResponse != null){
+                        val area = apiResponse.롯데월드몰
+                        val congestionLevel = area.congestionLevel
+                        val datetime = area.datetime
+
+                        val congetioninfobody = textbody
+                        congetioninfobody.setTextColor(Color.BLACK)
+                        congetioninfobody.text = "기준시간:$datetime \n" +
+                                "지역이름: 롯데월드몰 \n" +
+                                "위험도:   $congestionLevel \n"
+
+                    }
+                } else{
+                    Log.e("API Error", "Request failed with code: ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
+                // API 요청 실패 처리
+                t.printStackTrace()
+            }
+        })
+
+    }
+
+    fun call올림픽공원(){
+        val retrofit = Retrofit.Builder()
+            .baseUrl("http://192.168.20.27:8000/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+        apiService = retrofit.create(ApiService::class.java)
+
+        val call = apiService.getData()
+        call.enqueue(object : Callback<ApiResponse> {
+            override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
+                if (response.isSuccessful) {
+                    val apiResponse = response.body()
+                    if(apiResponse != null){
+                        val area = apiResponse.올림픽공원
+                        val congestionLevel = area.congestionLevel
+                        val datetime = area.datetime
+
+                        val congetioninfobody = textbody
+                        congetioninfobody.setTextColor(Color.BLACK)
+                        congetioninfobody.text = "기준시간:$datetime \n" +
+                                "지역이름: 올림픽공원 \n" +
+                                "위험도:   $congestionLevel \n"
+
+                    }
+                } else{
+                    Log.e("API Error", "Request failed with code: ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
+                // API 요청 실패 처리
+                t.printStackTrace()
+            }
+        })
+
+    }
+    fun formatDateTime(dateTime: Date): String {
+        val pattern = "yyyy-MM-dd"
+        val sdf = SimpleDateFormat(pattern, Locale.getDefault())
+        return sdf.format(dateTime)
     }
 }
 

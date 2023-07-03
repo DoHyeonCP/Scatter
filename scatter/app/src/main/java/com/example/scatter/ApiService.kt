@@ -12,5 +12,5 @@ import retrofit2.http.Query
 
 interface ApiService{
     @GET("api-sk/") // 엔드포인트 경로
-    fun getData(): Call<JSONObject>
+    fun getData(): Call<ApiResponse>
 }
