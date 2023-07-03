@@ -9,11 +9,11 @@ import org.eclipse.paho.client.mqttv3.*
 
 class Mqtt {
     private lateinit var mqttClient : MqttClient
-
+    val brokerUrl = "tcp://115.21.135.45:1883"
 
     fun sendLocationToServer(latitude: Double, longitude: Double) {
 
-        val brokerUrl = "tcp://115.21.135.45:1883"
+
         val clientId = "Phone_GPS"
 //        val payload = "disconnected".toByteArray(Charsets.UTF_8)
         try {
@@ -35,5 +35,26 @@ class Mqtt {
                 var mqttMessage = MqttMessage(message.toByteArray())
                 mqttClient.publish(topic, mqttMessage)
             }
+    }
+
+    fun requestLocationinfo(area: String){
+        val clientId = "locationname"
+
+        val topic = "$area"
+        var message = "$area"
+        val payload = "disconnected".toByteArray(Charsets.UTF_8)
+        Log.i("informatio", message)
+        var mqttMessage = MqttMessage(message.toByteArray())
+
+        try {
+            mqttClient = MqttClient(brokerUrl, clientId, MemoryPersistence())
+            val mqttConnectOptions = MqttConnectOptions()
+            mqttConnectOptions.connectionTimeout = 1000
+            mqttConnectOptions.setWill("$area", payload, 2, false)
+            mqttClient.connect(mqttConnectOptions)
+        } catch(ex: MqttException){
+            ex.printStackTrace()
+        }
+        mqttClient.publish(topic, mqttMessage)
     }
 }
