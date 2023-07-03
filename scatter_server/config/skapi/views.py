@@ -1,5 +1,6 @@
 from django.shortcuts import render
 import xml.etree.ElementTree as ET
+import datetime as dt
 import time
 from rest_framework import status
 from rest_framework.parsers import JSONParser
@@ -66,7 +67,8 @@ sk_songpagu_pois_id = ["188485", "188592", "5783805", "5799878", "188633"]
 area = ["롯데월드", "방이동 먹자골목"] 
 pois = ["롯데백화점", "롯데마트제타플레닛", "에비뉴엘월드타우점", "롯데월드몰", "올림픽공원" ]
 # SK_APP_KEY = 'BFE8BDtYZK553WvHLrnHxagtLvBEypDq9ClJQpAs'
-SK_APP_KEY = 'RNM43SFreC8YwWjFIAGHY4VIpOi6jDHG98AHf7rN'
+# SK_APP_KEY = 'RNM43SFreC8YwWjFIAGHY4VIpOi6jDHG98AHf7rN'
+SK_APP_KEY = 'e8wHh2tya84M88aReEpXCa5XTQf3xgo01aZG39k5'
 
 area = ["롯데월드", "방이동먹자골목", "롯데백화점", "롯데마트제타플레닛", "에비뉴엘월드타워점", "롯데월드몰", "올림픽공원" ]
 
@@ -91,26 +93,42 @@ def sk_api_areas_congetion(areaid, num, area):
     jsonobject = SkOpenApi(f'https://apis.openapi.sk.com/puzzle/place/congestion/rltm/areas/{areaid}?appkey={app_key}')
     congestion = jsonobject['contents']['rltm']['congestionLevel']
     datetime = jsonobject['contents']['rltm']['datetime']
+    y = datetime[:4]
+    M = datetime[4:6]
+    d = datetime[6:8]
+    h = datetime[8:10]
+    m = datetime[10:12]
+    s = datetime[12:]
+    datetime_format = f"{y}년{M}월{d}일 {h}.{m}.{s}"
+  
     area  = str(area[num])
     areainfo[area] = {
         "congestion_level": congestion,
-        "datetime": datetime
+        "datetime":  datetime_format
     }
     print(areainfo[area])
     return areainfo
     
 def sk_api_pois_congetion(poiid,num,area):
-	app_key = SK_APP_KEY
-	jsonobject = SkOpenApi(f'https://apis.openapi.sk.com/puzzle/place/congestion/rltm/pois/{poiid}?appkey={app_key}')
-	datetime = jsonobject['contents']['rltm'][0]['datetime']
-	congestion = jsonobject['contents']['rltm'][0]['congestionLevel']      
-	area = str(area[num])
-	areainfo[area] = {
+  app_key = SK_APP_KEY
+  jsonobject = SkOpenApi(f'https://apis.openapi.sk.com/puzzle/place/congestion/rltm/pois/{poiid}?appkey={app_key}')
+  datetime = jsonobject['contents']['rltm'][0]['datetime']
+  congestion = jsonobject['contents']['rltm'][0]['congestionLevel']      
+  
+  area = str(area[num])
+  y = datetime[:4]
+  M = datetime[4:6]
+  d = datetime[6:8]
+  h = datetime[8:10]
+  m = datetime[10:12]
+  s = datetime[12:]
+  datetime_format = f"{y}년{M}월{d}일 {h}.{m}.{s}"
+  areainfo[area] = {
         "congestion_level": congestion,
-        "datetime": datetime
+        "datetime": datetime_format
     }
-	print(areainfo[area])
-	return areainfo
+  print(areainfo[area])
+  return areainfo
     
 def get_sk_hotspots(request):
     area_count = 0

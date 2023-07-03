@@ -32,7 +32,9 @@
             android:id="@+id/textbody"
             android:layout_width="match_parent"
             android:layout_height="180dp"
-            android:text="기본 텍스트" />
+            android:text="왼쪽 상단 메뉴바를 클릭"
+            android:textSize = "30dp"
+            android:textStyle="bold" />
         <Button
             android:id="@+id/prediction"
             android:layout_width="match_parent"
