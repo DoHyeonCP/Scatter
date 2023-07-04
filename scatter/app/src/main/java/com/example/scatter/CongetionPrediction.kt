@@ -11,14 +11,16 @@ import android.webkit.WebViewClient
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.Spinner
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.compose.ui.graphics.Color
 import com.example.scatter.databinding.CongetionPredictionBinding
 import com.example.scatter.databinding.ToolbarBinding
 
 class CongetionPrediction : AppCompatActivity() {
     private lateinit var predictionBinding: CongetionPredictionBinding
-    private lateinit var dropdown : Spinner
+    private lateinit var spinner : Spinner
     private lateinit var graphview : ImageView
 
 
@@ -26,19 +28,37 @@ class CongetionPrediction : AppCompatActivity() {
         setTheme(R.style.Theme_Scatter)
         super.onCreate(savedInstanceState)
 
-
-
         predictionBinding = CongetionPredictionBinding.inflate(layoutInflater)
 
         setContentView(predictionBinding.root)
 //        setSupportActionBar(findViewById(R.id.main_toolbar))
-        dropdown = predictionBinding.spinner
+        spinner = predictionBinding.spinner
         graphview = predictionBinding.graphview
-
-
-
-
-
+        val itemArray = arrayOf("롯데월드", "방이동먹자골목", "에비뉴엘월드타워점", "롯데월드몰", "올림픽공원")
+        val spinnerAdapter = ArrayAdapter(
+            this,
+            R.layout.spinner_dropdown_item,
+            itemArray
+        )
+        spinner.adapter = spinnerAdapter
+//        spinner.viewTreeObserver.addOnGlobalLayoutListener {
+//            (spinner.selectedView as TextView).setTextColor(Color.White)
+//            (spinner.selectedView as TextView).setBackgroundResource(R.drawable.spinner_custom)
+//        }
+//        spinner.onItemSelectedListener =
+//            object : AdapterView.OnItemSelectedListener {
+//                override fun onItemSelected(
+//                    parent: AdapterView<*>,
+//                    view: View,
+//                    position: Int,
+//                    id: Long
+//                ) {
+//                    // 선택됬을 경우
+//
+//                }
+//
+//                override fun onNothingSelected(parent: AdapterView<*>) {}
+//            }
 
     }
 }
