@@ -33,16 +33,6 @@ areainfo = {"롯데월드": {
      		"congestion_level" : 0
               
 		},
-		"롯데백화점":{
-               "datetime" : "",
-     "congestion_level" : 0
-               
-		}, 
-		"롯데마트제타플레닛":{
-               "datetime" : "",
-     "congestion_level" : 0
-               
-		}, 
 		"에비뉴엘월드타워점":{
                "datetime" : "",
      "congestion_level" : 0
@@ -60,7 +50,7 @@ areainfo = {"롯데월드": {
 sk_songpagu_areas_id = ["9273", "9270"]
 
 # 롯데월드어드벤처, 롯데월드잠실점, 롯데백화점잠실점, 롯데마트제타플레
-sk_songpagu_pois_id = ["188485", "188592", "5783805", "5799878", "188633"]
+sk_songpagu_pois_id = ["5783805", "5799875", "188633"]
 
 
 
@@ -72,7 +62,7 @@ SK_APP_KEY = 'BFE8BDtYZK553WvHLrnHxagtLvBEypDq9ClJQpAs'
 # SK_APP_KEY = '6nPa8A9ij41zGV7x7QAeR9x9y3MuLPEgjiHjbhhc'
 # SK_APP_KEY = 'W9DXjZKgAg4bVZwjN90m14SxPppyMoRzcYiBAB72'
 # SK_APP_KEY = 'Tt3yyROHTM8op2hEyv1Z34AXC2x8KPbn1iuD5Hlc'
-area = ["롯데월드", "방이동먹자골목", "롯데백화점", "롯데마트제타플레닛", "에비뉴엘월드타워점", "롯데월드몰", "올림픽공원" ]
+area = ["롯데월드", "방이동먹자골목","에비뉴엘월드타워점", "롯데월드몰", "올림픽공원" ]
 
 
 def SkOpenApi(url): # json serialize
@@ -86,7 +76,9 @@ def SkOpenApi(url): # json serialize
 def sk_api_areas_congetion(areaid, num, area):
     app_key = SK_APP_KEY
     jsonobject = SkOpenApi(f'https://apis.openapi.sk.com/puzzle/place/congestion/rltm/areas/{areaid}?appkey={app_key}')
-    congestion = jsonobject['contents']['rltm']['congestionLevel']
+    congestion = jsonobject['contents']['rltm']['congestion']
+    congestion = renamelevel(congestion)
+
     datetime = jsonobject['contents']['rltm']['datetime']
     y = datetime[:4]
     M = datetime[4:6]
@@ -108,7 +100,8 @@ def sk_api_pois_congetion(poiid,num,area):
   app_key = SK_APP_KEY
   jsonobject = SkOpenApi(f'https://apis.openapi.sk.com/puzzle/place/congestion/rltm/pois/{poiid}?appkey={app_key}')
   datetime = jsonobject['contents']['rltm'][0]['datetime']
-  congestion = jsonobject['contents']['rltm'][0]['congestionLevel']      
+  congestion = jsonobject['contents']['rltm'][0]['congestion']
+  congestion = renamelevel(congestion)
   
   area = str(area[num])
   y = datetime[:4]
@@ -126,23 +119,29 @@ def sk_api_pois_congetion(poiid,num,area):
   return areainfo
     
 def get_sk_hotspots(request):
-    # area_count = 0
-    # for sk_areaid in sk_songpagu_areas_id:
-    #     areainfo = sk_api_areas_congetion(sk_areaid, area_count, area)
-    #     area_count += 1
-    # print("sk_area_finish")
-    # for sk_poiid in sk_songpagu_pois_id:
-    #     areainfo = sk_api_pois_congetion(sk_poiid, area_count, area)
-    #     area_count += 1
-    # json_data = json.dumps(areainfo,ensure_ascii=False)
+    area_count = 0
+    for sk_areaid in sk_songpagu_areas_id:
+        areainfo = sk_api_areas_congetion(sk_areaid, area_count, area)
+        area_count += 1
+    print("sk_area_finish")
+    for sk_poiid in sk_songpagu_pois_id:
+        areainfo = sk_api_pois_congetion(sk_poiid, area_count, area)
+        area_count += 1
+    json_data = json.dumps(areainfo,ensure_ascii=False)
 
-    congestion_level = "위험"
-    areainfo["롯데월드"] = {
-        "datetime" : "2023년7월4일",
-        "congestion_level" : congestion_level
-    }
     return JsonResponse(areainfo, json_dumps_params={'ensure_ascii': False}, safe=False, content_type='application/json')
 
+def renamelevel(congestion):
+    if congestion < 0.0175:
+        return "여유"
+    elif congestion <= 0.035:
+        return "보통"
+    elif congestion <= 0.21:
+        return "조금혼잡"
+    elif congestion <= 0.4:
+        return "혼잡"
+    elif congestion > 0.4:
+        return "매우혼잡"
 
 롯데백화점잠실점 = {
     "status": {
@@ -164,7 +163,13 @@ def get_sk_hotspots(request):
     }
   }
 
+
     
 
 롯데월드 ={"status": {"code": "00","message": "success","totalCount": 1},"contents": {"areaId": "9273","areaName": "롯데월드","rltm": {"congestion": 0.01541,"congestionLevel": 1,"datetime": "20230701002000"}}}
 
+# 0.0175
+# 0.03
+# 0.2
+# 0.4
+# 0.4

@@ -13,12 +13,6 @@
             android:id="@+id/bangiDong"
             android:title="방이동먹자골목" />
         <item
-            android:id="@+id/lottedpartment"
-            android:title="롯데백화점" />
-        <item
-            android:id="@+id/zplanet"
-            android:title="롯데마트제타플레닛" />
-        <item
             android:id="@+id/avenuelJamsil"
             android:title="에비뉴엘월드타워점"
             app:showAsAction="always"/>

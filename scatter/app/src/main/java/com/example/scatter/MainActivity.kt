@@ -44,7 +44,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var textbody : TextView
     private lateinit var navigationView: NavigationView
     private lateinit var  apiService: ApiService
-    private lateinit var map : ImageView
     private lateinit var location_dot1 : ImageView
     private lateinit var location_dot2 : ImageView
     private lateinit var location_dot3 : ImageView
@@ -129,29 +128,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 location_dot2.setColorFilter(R.color.black)
                 location_dot3.setColorFilter(R.color.black)
                 location_dot4.setColorFilter(R.color.white)
-                location_dot5.setColorFilter(R.color.black)
-            }
-        }
-        drawerLayout.closeDrawers() // 기능을 수행하고 네비게이션을 닫아준다.
-        when(item.itemId){
-            R.id.lottedpartment -> {
-                call롯데백화점()
-                location_dot1.setColorFilter(R.color.white)
-                location_dot2.setColorFilter(R.color.black)
-                location_dot3.setColorFilter(R.color.black)
-                location_dot4.setColorFilter(R.color.black)
-                location_dot5.setColorFilter(R.color.black)
-
-            }
-        }
-        drawerLayout.closeDrawers() // 기능을 수행하고 네비게이션을 닫아준다.
-        when(item.itemId){
-            R.id.zplanet -> {
-                call롯데마트제타플레닛()
-                location_dot1.setColorFilter(R.color.white)
-                location_dot2.setColorFilter(R.color.black)
-                location_dot3.setColorFilter(R.color.black)
-                location_dot4.setColorFilter(R.color.black)
                 location_dot5.setColorFilter(R.color.black)
             }
         }
@@ -245,7 +221,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     fun call방이동먹자골목(){
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://192.168.20.27:8000/")
+            .baseUrl("http://115.21.135.45:8000/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         apiService = retrofit.create(ApiService::class.java)
@@ -277,83 +253,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 t.printStackTrace()
             }
         })
-
-    }
-    fun call롯데백화점(){
-        val retrofit = Retrofit.Builder()
-            .baseUrl("http://192.168.20.27:8000/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-        apiService = retrofit.create(ApiService::class.java)
-
-        val call = apiService.getData()
-        call.enqueue(object : Callback<ApiResponse> {
-            override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
-                if (response.isSuccessful) {
-                    val apiResponse = response.body()
-                    if(apiResponse != null){
-                        val area = apiResponse.롯데백화점
-                        val congestionLevel = area.congestionLevel
-                        val datetime = area.datetime
-
-                        val congetioninfobody = textbody
-                        congetioninfobody.setTextColor(Color.BLACK)
-                        congetioninfobody.text = "기준시간:$datetime \n" +
-                                "지역이름: 롯데백화점 \n" +
-                                "위험도:  $congestionLevel \n"
-
-                    }
-                } else{
-                    Log.e("API Error", "Request failed with code: ${response.code()}")
-                }
-            }
-
-            override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
-                // API 요청 실패 처리
-                t.printStackTrace()
-            }
-        })
-
-    }
-    fun call롯데마트제타플레닛(){
-        val retrofit = Retrofit.Builder()
-            .baseUrl("http://192.168.20.27:8000/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-        apiService = retrofit.create(ApiService::class.java)
-
-        val call = apiService.getData()
-        call.enqueue(object : Callback<ApiResponse> {
-            override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
-                if (response.isSuccessful) {
-                    val apiResponse = response.body()
-                    if(apiResponse != null){
-                        val area = apiResponse.롯데마트제타플레닛
-                        val congestionLevel = area.congestionLevel
-                        val datetime = area.datetime
-
-                        val congetioninfobody = textbody
-                        congetioninfobody.setTextColor(Color.BLACK)
-                        congetioninfobody.text = "기준시간:$datetime \n" +
-                                "지역이름: 롯데마트제타플레닛 \n" +
-                                "위험도:   $congestionLevel \n"
-
-                    }
-                } else{
-                    Log.e("API Error", "Request failed with code: ${response.code()}")
-                }
-            }
-
-            override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
-                // API 요청 실패 처리
-                t.printStackTrace()
-            }
-        })
-
     }
     fun call에비뉴엘월드타워점(){
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://192.168.20.27:8000/")
+            .baseUrl("http://115.21.135.45:8000/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         apiService = retrofit.create(ApiService::class.java)
@@ -389,7 +292,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
     fun call롯데월드몰(){
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://192.168.20.27:8000/")
+            .baseUrl("http://115.21.135.45:8000/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         apiService = retrofit.create(ApiService::class.java)
@@ -426,7 +329,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     fun call올림픽공원(){
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://192.168.20.27:8000/")
+            .baseUrl("http://115.21.135.45:8000/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         apiService = retrofit.create(ApiService::class.java)
@@ -459,11 +362,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
         })
 
-    }
-    fun formatDateTime(dateTime: Date): String {
-        val pattern = "yyyy-MM-dd"
-        val sdf = SimpleDateFormat(pattern, Locale.getDefault())
-        return sdf.format(dateTime)
     }
 }
 

@@ -5,5 +5,5 @@
         <item name="colorPrimaryDark">@color/design_default_color_primary_dark</item>
         <item name="windowActionBar">false</item>
     </style>
-    <string name="app_name">scatter</string>
+    <string name="app_name">붐비미</string>
 </resources>

@@ -15,12 +15,10 @@ class Mqtt {
 
 
         val clientId = "Phone_GPS"
-//        val payload = "disconnected".toByteArray(Charsets.UTF_8)
         try {
             mqttClient = MqttClient(brokerUrl, clientId, MemoryPersistence())
             val mqttConnectOptions = MqttConnectOptions()
             mqttConnectOptions.connectionTimeout = 1000
-//            mqttConnectOptions.setWill("location", payload, 1, false)
             mqttClient.connect(mqttConnectOptions)
         } catch(ex: MqttException){
             ex.printStackTrace()
