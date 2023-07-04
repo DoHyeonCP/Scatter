@@ -2,22 +2,15 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="289dp"
-        android:layout_height="74dp"
-        android:text="TextView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
 
     <androidx.appcompat.widget.AppCompatSpinner
-        android:id="@+id/spinner"
-        android:layout_width="344dp"
-        android:layout_height="71dp"
+        android:id="@+id/spinner1"
+        android:layout_width="335dp"
+        android:layout_height="73dp"
+        android:layout_marginStart="0dp"
         android:background="@drawable/spinner_custom"
         android:gravity="center"
         android:overlapAnchor="false"
@@ -25,35 +18,43 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
         android:popupElevation="10dp"
         android:textColor="@color/white"
         android:textSize="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/textView"
-        app:layout_constraintEnd_toStartOf="@+id/back"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/textView"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.014" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/spinner2"
+        android:layout_width="335dp"
+        android:layout_height="73dp"
+        android:background="@drawable/spinner_custom"
+        android:gravity="center"
+        android:overlapAnchor="false"
+        android:popupBackground="#DEDEDE"
+        android:popupElevation="10dp"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        app:layout_constraintStart_toEndOf="@+id/spinner1"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/back"
-        android:layout_width="77dp"
-        android:layout_height="70dp"
-        app:layout_constraintBottom_toTopOf="@+id/graphview"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/spinner"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/back" />
-
-    <ImageView
-        android:id="@+id/graphview"
-        android:layout_width="697dp"
-        android:layout_height="323dp"
+        android:id="@+id/graph1"
+        android:layout_width="330dp"
+        android:layout_height="310dp"
+        android:layout_marginTop="0dp"
         android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/test" />
+        app:layout_constraintTop_toBottomOf="@+id/spinner1"
+        app:srcCompat="@android:drawable/editbox_dropdown_light_frame" />
+
+    <ImageView
+        android:id="@+id/graph2"
+        android:layout_width="330dp"
+        android:layout_height="310dp"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/graph1"
+        app:layout_constraintTop_toBottomOf="@+id/spinner2"
+        app:srcCompat="@android:drawable/editbox_dropdown_light_frame" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

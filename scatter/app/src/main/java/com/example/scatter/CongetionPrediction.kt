@@ -20,9 +20,10 @@ import com.example.scatter.databinding.ToolbarBinding
 
 class CongetionPrediction : AppCompatActivity() {
     private lateinit var predictionBinding: CongetionPredictionBinding
-    private lateinit var spinner : Spinner
-    private lateinit var graphview : ImageView
-
+    private lateinit var spinner1 : Spinner
+    private lateinit var spinner2 : Spinner
+    private lateinit var graphview1 : ImageView
+    private lateinit var graphview2 : ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.Theme_Scatter)
@@ -31,17 +32,25 @@ class CongetionPrediction : AppCompatActivity() {
         predictionBinding = CongetionPredictionBinding.inflate(layoutInflater)
 
         setContentView(predictionBinding.root)
-//        setSupportActionBar(findViewById(R.id.main_toolbar))
-        spinner = predictionBinding.spinner
-        graphview = predictionBinding.graphview
-        val itemArray = arrayOf("롯데월드", "방이동먹자골목", "에비뉴엘월드타워점", "롯데월드몰", "올림픽공원")
-        val spinnerAdapter = ArrayAdapter(
+        spinner1 = predictionBinding.spinner1
+        graphview1 = predictionBinding.graph1
+        val itemArray = arrayOf("지역을 선택해주세요", "롯데월드", "방이동먹자골목", "에비뉴엘월드타워점", "롯데월드몰", "올림픽공원")
+        val spinnerAdapter1 = ArrayAdapter(
             this,
             R.layout.spinner_dropdown_item,
             itemArray
         )
-        spinner.adapter = spinnerAdapter
-//        spinner.viewTreeObserver.addOnGlobalLayoutListener {
+        spinner1.adapter = spinnerAdapter1
+
+        spinner2 = predictionBinding.spinner2
+        graphview2 = predictionBinding.graph2
+        val spinnerAdapter2 = ArrayAdapter(
+            this,
+            R.layout.spinner_dropdown_item,
+            itemArray
+        )
+        spinner2.adapter = spinnerAdapter2
+//        spinner1.viewTreeObserver.addOnGlobalLayoutListener {
 //            (spinner.selectedView as TextView).setTextColor(Color.White)
 //            (spinner.selectedView as TextView).setBackgroundResource(R.drawable.spinner_custom)
 //        }
