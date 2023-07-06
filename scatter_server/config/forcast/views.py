@@ -1,14 +1,22 @@
 from django.shortcuts import render
+import json
+from django.http import JsonResponse
 
 # Create your views here.
 
 from django.shortcuts import render
 import os
 
-def lotteworld_forcast(request):
-    template_dir = 'forecast/templates/lotteworld'  # 템플릿 디렉토리 경로
-    locations = os.listdir(template_dir)  # 폴더 목록 가져오기
+def export_images_as_json(request):
+    image_folder = 'AI_nodjango/images'  # 템플릿 디렉토리 경로
 
-    context = {'locations': locations}
-    return render(request, 'lotteworld/forecast.html', context)
-
+    image_files = os.listdir(image_folder)
+    image_data = []
+    for image_file in image_files:
+        image_path = os.path.join(image_file, image_folder)
+        image_data.append({
+            'name': image_file,
+            'path': image_path,
+        })
+        
+    return JsonResponse(image_data, safe = False)

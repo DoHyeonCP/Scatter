@@ -17,11 +17,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,include
 from skapi.views import get_sk_hotspots
-# from forecast.views import *
+from forcast.views import export_images_as_json
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-sk/', get_sk_hotspots),
-    # path('lotteworldforecast/', lotteworld_forcast),
+    path('forecastimages/', export_images_as_json),
 ]
