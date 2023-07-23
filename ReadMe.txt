@@ -1,3 +1,11 @@
+마무리 남은 것
+1. 안드로이드 hardcode 없애기(보안을 위해)
+2. Djnago image json 파일혁식 지역이름 하위에 경로가 나오게하기
+3. Android Studio 이미지가져와서 드롭다운 지역 설정시 서버에서 JsonResponse된  name/path parshing해서 ImageView 띄우도록 수정하기(congestionpredistion/downloadfile, URlconnction vs Retrofit)
+4. AI 코드 Djnago의 app으로 만들기(sk api 불러오는 것이 중복됨으로 비효율)
+
+
+AI 전달내용
 --Python 3.7.10
 
 실행 순서

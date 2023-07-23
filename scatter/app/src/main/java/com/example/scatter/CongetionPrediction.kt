@@ -1,26 +1,18 @@
 package com.example.scatter
 
 import android.content.Intent
-import android.net.http.SslError
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.view.View
-import android.webkit.SslErrorHandler
-import android.webkit.WebSettings
-import android.webkit.WebView
-import android.webkit.WebViewClient
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.Spinner
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
-import androidx.compose.ui.graphics.Color
 import com.example.scatter.databinding.CongetionPredictionBinding
-import com.example.scatter.databinding.ToolbarBinding
+import java.io.BufferedInputStream
+import java.net.URL
+import java.net.URLConnection
 
 class CongetionPrediction : AppCompatActivity() {
     private lateinit var predictionBinding: CongetionPredictionBinding
@@ -29,12 +21,15 @@ class CongetionPrediction : AppCompatActivity() {
     private lateinit var graphview1 : ImageView
     private lateinit var graphview2 : ImageView
     private lateinit var backButton : ImageButton
+    private lateinit var conn : URLConnection
+    private lateinit var imagePath : URL
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.Theme_Scatter)
         super.onCreate(savedInstanceState)
 
         predictionBinding = CongetionPredictionBinding.inflate(layoutInflater)
-
         setContentView(predictionBinding.root)
 
         backButton = predictionBinding.backButton
@@ -110,5 +105,22 @@ class CongetionPrediction : AppCompatActivity() {
         }
     }
 
+    private fun downloadfile(religion : String){
+        var conn: URLConnection? = null
+        imagePath = URL("http://127.0.0.1:8000/AI_nodjango/images")
+        try{
+            conn = imagePath.openConnection()
+            conn.doInput = true
+            conn.connect()
+
+            val inputStream = conn.getInputStream()
+            val bufferedInputStream = BufferedInputStream(inputStream)
+
+            bufferedInputStream.close()
+            inputStream.close()
+        } catch(e: Exception){
+            e.printStackTrace()
+        }
+    }
 
 }

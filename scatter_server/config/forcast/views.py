@@ -8,7 +8,7 @@ from django.shortcuts import render
 import os
 
 def export_images_as_json(request):
-    image_folder = 'AI_nodjango/images'  # 템플릿 디렉토리 경로
+    image_folder = 'AI_nodjango/images' # 템플릿 디렉토리 경로
 
     image_files = os.listdir(image_folder)
     image_data = []

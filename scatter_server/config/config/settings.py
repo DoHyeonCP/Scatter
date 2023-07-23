@@ -25,6 +25,7 @@ SECRET_KEY = 'django-insecure-b%^!xbrb*ufd95og0lr9twt4kz*p+jhl=ju!-noh*xo_*e!vhb
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# plus ec2_elastic_ip
 ALLOWED_HOSTS = ['*'] #anybody
 
 SEOUL_API_KEY = '674b6c5377656867393341724f6477'
