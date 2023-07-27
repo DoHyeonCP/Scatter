@@ -18,7 +18,7 @@
         android:layout_height="69dp"
         android:layout_marginTop="15dp"
         android:gravity="center"
-        android:text="지역을 선택해 주세요!"
+        android:text="@+string/지역을 선택해 주세요!"
         android:textColor="@android:color/white"
         android:textSize="20dp"
         android:textStyle="bold" />

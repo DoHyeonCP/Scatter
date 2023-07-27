@@ -32,7 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="180dp"
             android:layout_marginTop = "470dp"
-            android:text="왼쪽 상단 메뉴바를 클릭"
+            android:text="@+string/왼쪽 상단 메뉴바를 클릭"
             android:textSize = "30dp"
             android:textStyle="bold" />
         <Button
@@ -41,7 +41,7 @@
             android:layout_height="50dp"
             android:layout_marginTop = "650dp"
             android:background="#E25822"
-            android:text="예측된 인구혼잡 결과 보러가기"
+            android:text="@+string/예측된 인구혼잡 결과 보러가기"
             android:textColor="@color/white"
             android:textSize="25dp"
             android:textStyle="bold" />
