@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "119930477706",
+    "project_id": "scatter-41f74",
+    "storage_bucket": "scatter-41f74.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:119930477706:android:e88d414789487edb43a173",
+        "android_client_info": {
+          "package_name": "com.example.scatter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "119930477706-vtb65mnpv9vfdn0vr5nds76tpe9asbfl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDPTv15W5rpljWz_Iq6MxAvnoK1y22HOd4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "119930477706-vtb65mnpv9vfdn0vr5nds76tpe9asbfl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

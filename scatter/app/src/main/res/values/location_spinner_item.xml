@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="location_array">
+        <item>롯데월드</item>
+        <item>방이동먹자골목</item>
+        <item>에비뉴엘월드타워점</item>
+        <item>롯데월드몰</item>
+        <item>올림픽공원</item>
+    </string-array>
+</resources>
