@@ -1,4 +1,4 @@
-package com.example.scatter
+package com.example.scatter.activity
 
 
 
@@ -7,7 +7,6 @@ import android.content.Intent
 import android.graphics.Color
 import android.location.LocationManager
 import android.os.Bundle
-import android.provider.ContactsContract.Data
 import android.util.Log
 import android.view.Gravity
 import android.view.MenuItem
@@ -15,25 +14,20 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isInvisible
-import androidx.core.view.marginBottom
 import androidx.drawerlayout.widget.DrawerLayout
+import com.example.scatter.LocationInfo
+import com.example.scatter.R
 import com.example.scatter.databinding.MainActivityBinding
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.android.material.navigation.NavigationView
-import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import com.example.scatter.ApiResponse
-import com.google.gson.annotations.SerializedName
-import java.io.BufferedReader
-import java.io.InputStreamReader
-import java.net.URL
-import java.text.SimpleDateFormat
-import java.util.*
+import com.example.data.api.ApiResponse
+import com.example.data.api.ApiService
+import com.example.scatter.permission.RequestPermissions
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     private lateinit var mainbinding: MainActivityBinding
@@ -43,7 +37,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var button: Button
     private lateinit var textbody : TextView
     private lateinit var navigationView: NavigationView
-    private lateinit var  apiService: ApiService
+    private lateinit var  apiService: com.example.data.api.ApiService
     private lateinit var location_dot1 : ImageView
     private lateinit var location_dot2 : ImageView
     private lateinit var location_dot3 : ImageView
@@ -82,7 +76,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 
         button.setOnClickListener {
-            val intent = Intent(this@MainActivity, CongetionPrediction::class.java)
+            val intent = Intent(this@MainActivity, CongetionPredictionActivity::class.java)
             startActivity(intent)
         }
 
@@ -187,11 +181,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             .baseUrl("http://115.21.135.45:8000/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-        apiService = retrofit.create(ApiService::class.java)
+        apiService = retrofit.create(com.example.data.api.ApiService::class.java)
 
         val call = apiService.getData()
-        call.enqueue(object : Callback<ApiResponse> {
-            override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
+        call.enqueue(object : Callback<com.example.data.api.ApiResponse> {
+            override fun onResponse(call: Call<com.example.data.api.ApiResponse>, response: Response<com.example.data.api.ApiResponse>) {
                 if (response.isSuccessful) {
                     val apiResponse = response.body()
                     if(apiResponse != null){
@@ -211,7 +205,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 }
             }
 
-            override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
+            override fun onFailure(call: Call<com.example.data.api.ApiResponse>, t: Throwable) {
                 // API 요청 실패 처리
                 t.printStackTrace()
             }
@@ -224,11 +218,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             .baseUrl("http://115.21.135.45:8000/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-        apiService = retrofit.create(ApiService::class.java)
+        apiService = retrofit.create(com.example.data.api.ApiService::class.java)
 
         val call = apiService.getData()
-        call.enqueue(object : Callback<ApiResponse> {
-            override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
+        call.enqueue(object : Callback<com.example.data.api.ApiResponse> {
+            override fun onResponse(call: Call<com.example.data.api.ApiResponse>, response: Response<com.example.data.api.ApiResponse>) {
                 if (response.isSuccessful) {
                     val apiResponse = response.body()
                     if(apiResponse != null){
@@ -248,7 +242,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 }
             }
 
-            override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
+            override fun onFailure(call: Call<com.example.data.api.ApiResponse>, t: Throwable) {
                 // API 요청 실패 처리
                 t.printStackTrace()
             }
@@ -259,11 +253,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             .baseUrl("http://115.21.135.45:8000/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-        apiService = retrofit.create(ApiService::class.java)
+        apiService = retrofit.create(com.example.data.api.ApiService::class.java)
 
         val call = apiService.getData()
-        call.enqueue(object : Callback<ApiResponse> {
-            override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
+        call.enqueue(object : Callback<com.example.data.api.ApiResponse> {
+            override fun onResponse(call: Call<com.example.data.api.ApiResponse>, response: Response<com.example.data.api.ApiResponse>) {
                 if (response.isSuccessful) {
                     val apiResponse = response.body()
                     if(apiResponse != null){
@@ -283,7 +277,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 }
             }
 
-            override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
+            override fun onFailure(call: Call<com.example.data.api.ApiResponse>, t: Throwable) {
                 // API 요청 실패 처리
                 t.printStackTrace()
             }
@@ -295,11 +289,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             .baseUrl("http://115.21.135.45:8000/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-        apiService = retrofit.create(ApiService::class.java)
+        apiService = retrofit.create(com.example.data.api.ApiService::class.java)
 
         val call = apiService.getData()
-        call.enqueue(object : Callback<ApiResponse> {
-            override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
+        call.enqueue(object : Callback<com.example.data.api.ApiResponse> {
+            override fun onResponse(call: Call<com.example.data.api.ApiResponse>, response: Response<com.example.data.api.ApiResponse>) {
                 if (response.isSuccessful) {
                     val apiResponse = response.body()
                     if(apiResponse != null){
@@ -319,7 +313,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 }
             }
 
-            override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
+            override fun onFailure(call: Call<com.example.data.api.ApiResponse>, t: Throwable) {
                 // API 요청 실패 처리
                 t.printStackTrace()
             }
@@ -332,11 +326,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             .baseUrl("http://115.21.135.45:8000/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-        apiService = retrofit.create(ApiService::class.java)
+        apiService = retrofit.create(com.example.data.api.ApiService::class.java)
 
         val call = apiService.getData()
-        call.enqueue(object : Callback<ApiResponse> {
-            override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
+        call.enqueue(object : Callback<com.example.data.api.ApiResponse> {
+            override fun onResponse(call: Call<com.example.data.api.ApiResponse>, response: Response<com.example.data.api.ApiResponse>) {
                 if (response.isSuccessful) {
                     val apiResponse = response.body()
                     if(apiResponse != null){
@@ -356,7 +350,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 }
             }
 
-            override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
+            override fun onFailure(call: Call<com.example.data.api.ApiResponse>, t: Throwable) {
                 // API 요청 실패 처리
                 t.printStackTrace()
             }

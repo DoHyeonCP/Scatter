@@ -1,4 +1,4 @@
-package com.example.scatter
+package com.example.scatter.activity
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,12 +9,13 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
+import com.example.scatter.R
 import com.example.scatter.databinding.CongetionPredictionBinding
 import java.io.BufferedInputStream
 import java.net.URL
 import java.net.URLConnection
 
-class CongetionPrediction : AppCompatActivity() {
+class CongetionPredictionActivity : AppCompatActivity() {
     private lateinit var predictionBinding: CongetionPredictionBinding
     private lateinit var spinner1 : Spinner
     private lateinit var spinner2 : Spinner
@@ -88,7 +89,7 @@ class CongetionPrediction : AppCompatActivity() {
         }
 
         backButton.setOnClickListener{
-            val intent = Intent(this@CongetionPrediction, MainActivity::class.java)
+            val intent = Intent(this@CongetionPredictionActivity, MainActivity::class.java)
             startActivity(intent)
         }
     }

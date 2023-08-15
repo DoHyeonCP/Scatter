@@ -1,4 +1,4 @@
-package com.example.scatter
+package com.example.data.model
 
 import com.google.gson.annotations.SerializedName
 

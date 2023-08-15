@@ -1,5 +1,6 @@
-package com.example.scatter
+package com.example.data.api
 
+import com.example.scatter.model.Hotspot
 import com.google.gson.annotations.SerializedName
 
 data class ApiResponse(
@@ -9,4 +10,4 @@ data class ApiResponse(
     @SerializedName("롯데월드몰") val 롯데월드몰: Hotspot,
     @SerializedName("올림픽공원") val 올림픽공원: Hotspot,
 
-)
+    )

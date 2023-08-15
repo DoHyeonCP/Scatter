@@ -1,6 +1,5 @@
-package com.example.scatter
+package com.example.data.mqtt
 
-import android.media.session.MediaSession.Token
 import android.util.Log
 import com.google.firebase.messaging.FirebaseMessaging
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence

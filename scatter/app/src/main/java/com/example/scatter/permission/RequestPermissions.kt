@@ -1,13 +1,12 @@
-package com.example.scatter
+package com.example.scatter.permission
 
 import android.content.Context
 import android.content.pm.PackageManager
 import android.location.LocationManager
-import android.util.Log
 import androidx.core.app.ActivityCompat.requestPermissions
 import androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale
 import androidx.core.content.ContextCompat
-import com.example.scatter.LocationInfo
+import com.example.scatter.activity.MainActivity
 
 
 public class RequestPermissions {

@@ -1,17 +1,14 @@
 package com.example.scatter
 
-import android.content.Context
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
-import android.os.Looper
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
 //import com.google.android.gms.location.LocationResult
 //import com.google.android.gms.location.LocationServices
 //import com.google.android.gms.location.LocationSettingsRequest
-import com.example.scatter.Mqtt
+import com.example.data.mqtt.Mqtt
 
 class LocationInfo{
     private lateinit var gpsListener : GPSListener
@@ -69,7 +66,7 @@ class LocationInfo{
             val latitude = location.latitude
             val longitude = location.longitude
             val message = "내 위치는 Latitude : $latitude Longitude : $longitude"
-            Mqtt().sendLocationToServer(latitude, longitude)
+            com.example.data.mqtt.Mqtt().sendLocationToServer(latitude, longitude)
             Log.i("MyLocTest", message)
         }
 

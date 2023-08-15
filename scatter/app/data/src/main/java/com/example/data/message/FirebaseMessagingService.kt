@@ -1,6 +1,5 @@
-package com.example.scatter
+package com.example.data.message
 
-import android.app.Notification.WearableExtender
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
@@ -10,6 +9,8 @@ import android.util.Log
 
 import androidx.core.app.NotificationCompat
 import androidx.core.graphics.red
+import com.example.scatter.activity.MainActivity
+import com.example.scatter.R
 
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
