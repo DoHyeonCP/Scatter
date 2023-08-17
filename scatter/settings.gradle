@@ -13,6 +13,7 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "scatter"
-include ':app'
-include ':scatter_wearable'
-include ':app:data'
+include ':presentation'
+include ':data'
+include ':domain'
+
