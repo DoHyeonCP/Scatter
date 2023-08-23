@@ -6,8 +6,8 @@
     android:id = "@+id/drawblelayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:context=".activity.MainActivity">
+    android:fitsSystemWindows="true">
+<!--    tools:context=".activity.MainActivity"-->
 
     <FrameLayout
         android:layout_width="match_parent"
