@@ -23,19 +23,6 @@ import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.outlined.Menu
-import androidx.compose.material3.DrawerState
-import androidx.compose.material3.DrawerValue
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.NavigationRailDefaults.ContainerColor
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -48,48 +35,30 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.scatter.ui.theme.NavigationDrawerComposeTheme
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
+
+sealed class MenuItems(
+    val 롯데월드: String,
+    val 방이동_먹자골목: String,
+    val 에비뉴엘월드타워점: String,
+    val 롯데월드몰: String,
+    val 올림픽공원: String,
+)
 class ComoseActivity: ComponentActivity(){
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
         setContent{
             Surface(
                 modifier = Modifier.fillMaxSize(),
+                color = MeterialTheme
 
             ) {
                 MyScaffoldLayout()
             }
         }
     }
-}
-
-//@Composable
-//fun Toolbar(){
-//    Scaffold(
-//        topBar = {
-//            TopAppBar(
-//                title = {Text(text = toolbar},
-//
-//            )
-//        }
-//    )
-//}
-data class Message(val author: String, val body:String)
-
-@Composable
-fun Main(msg: Message){
-    Column{
-        Image(
-            painter = painterResource(R.drawable.jamsil_map),
-            contentDescription = "contact profile picture",
-        )
-
-        Spacer(modifier = Modifier.width(8.dp))
-        Text(text = msg.author)
-        Text(text = msg.body)
-    }
-
 }
 
 @OptIn(ExperimentalMaterial3Api::class) // 이걸 안붙이는 방법 찾아야함
@@ -112,29 +81,30 @@ fun MyTopAppBar(onNaviagionIconClick: () -> Unit){
 
 @Composable
 fun MyNavigationDrawer() {
+    val drawerState = rememberDrawerState(DrawerValue.Closed)
+    val scope = rememberCoroutineScope()
 
-}
+    ModalNavigationDrawer(
+        drawerState = drawerState,
+        drawerContent = { },
+        content = {
+            Scaffold(
+                content = {
+                    scope.launch{
+                        drawerState.open()
+                    }
+                }
+            )
+        }
 
-@Composable
-fun MySnackbar() {
-
-}
-
-@Composable
-fun MyFAB() {
-
-}
-
-@Composable
-fun MyBottomBar() {
-
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyScaffoldLayout() {
 //    val scaffoldState = rememberScaffoldState() M3 존재하지 않음 https://developer.android.com/jetpack/compose/designsystems/material2-material3?hl=ko
-    val snackbarHostState = remember {SnackbarHostState()}
+    val drawerState = rememberDrawerState(DrawerValue.Closed)
     val coroutineScope = rememberCoroutineScope()
     val contextForToast = LocalContext.current.applicationContext
 
@@ -142,10 +112,14 @@ fun MyScaffoldLayout() {
     Scaffold(
         topBar = {
             MyTopAppBar {
-
+                coroutineScope.launch{
+                    drawerState.open()
+                }
             }
-        }
-    ) {
+        },
+
+    )
+        {
 
         Column(
             modifier = Modifier
@@ -157,49 +131,11 @@ fun MyScaffoldLayout() {
     }
 }
 
-sealed class MenuItems(
-    val 롯데월드: String,
-    val 방이동_먹자골목: String,
-    val 에비뉴엘월드타워점: String,
-    val 롯데월드몰: String,
-    val 올림픽공원: String,
-)
-//@OptIn(ExperimentalMaterial3Api::class)
-//@Composable
-//fun toolbar(){
-//    val coroutineScope = rememberCoroutineScope()
-//
-//    Scaffold(
-//        topBar ={
-//            TopAppBar(
-//                title = { },
-//                navigationIcon = {
-//                    IconButton(onClick = {}) {
-//                        Icon(
-//                            imageVector = Icons.Filled.Menu,
-//                            contentDescription = "Menu"
-//                        )
-//                    }
-//                },
-//            )
-//        },
-//        content = { PaddingValues ->
-//            Column {
-//
-//                Text("Item Name")
-//                Text("Item Description")
-//            }
-//        }
-//    )
-//}
-
-
 @Preview
 @Composable
 fun ToolbarSamplePreview() {
     Surface(
         modifier = Modifier.fillMaxSize(),
-
         ) {
         MyScaffoldLayout()
     }
