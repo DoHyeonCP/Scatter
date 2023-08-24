@@ -45,13 +45,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 
-sealed class MenuItems(
-    val 롯데월드: String,
-    val 방이동_먹자골목: String,
-    val 에비뉴엘월드타워점: String,
-    val 롯데월드몰: String,
-    val 올림픽공원: String,
-)
+
 class ComoseActivity: ComponentActivity(){
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
