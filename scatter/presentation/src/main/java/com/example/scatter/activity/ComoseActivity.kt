@@ -61,7 +61,7 @@ class ComoseActivity: ComponentActivity(){
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class) // 이걸 안붙이는 방법 찾아야함
+//@OptIn(ExperimentalMaterial3Api::class) // 이걸 안붙이는 방법 찾아야함
 @Composable
 fun MyTopAppBar(onNaviagionIconClick: () -> Unit){
     TopAppBar(
