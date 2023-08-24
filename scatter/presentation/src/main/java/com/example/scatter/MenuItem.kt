@@ -1,4 +1,4 @@
-package com.example.scatter.activity
+package com.example.scatter
 
 import androidx.compose.ui.graphics.vector.ImageVector
 
