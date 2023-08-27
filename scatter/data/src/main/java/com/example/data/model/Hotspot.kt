@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
-@Entity
+@Entity(tableName = "congestion_info")
 data class Hotspot(
     @PrimaryKey val areaName: String,
     @SerializedName("congestion_level") val congestionLevel: String? = null,
