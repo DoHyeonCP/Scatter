@@ -12,24 +12,11 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 
-class ApiServiceManager(){
+class ApiServiceManager(private val apiService: ApiService){
     private val retrofit: Retrofit = Retrofit.Builder()
         .baseUrl("http://115.21.135.45:8000/")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
-    private val apiService: ApiService = retrofit.create(com.example.data.api.ApiService::class.java)
-    // db 초기화
-
-
-
-
-//    API 호출 후 데이터 저장
-//    val areaData = AreaData(areaName, congestionLevel, datetime)
-//    areaDataDao.insert(areaData)
-//
-
-//
-
 
     fun callApi(areaName: String) {
         val call = apiService.getData()
