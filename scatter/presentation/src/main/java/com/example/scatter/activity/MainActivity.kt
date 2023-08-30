@@ -29,7 +29,6 @@ import com.example.scatter.permission.RequestPermissions
 class MainActivity: ComponentActivity(){
     private lateinit var locationManager: LocationManager
 
-
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
         setContent{

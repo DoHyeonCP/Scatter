@@ -2,7 +2,6 @@ package com.example.data.api
 
 import android.content.Context
 import android.util.Log
-import androidx.room.Room
 import com.example.data.db.AppDatabase
 import com.example.data.model.Hotspot
 import retrofit2.Call
@@ -12,38 +11,11 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 
-class ApiServiceManager(){
+class ApiServiceManager(private val apiService: ApiService){
     private val retrofit: Retrofit = Retrofit.Builder()
         .baseUrl("http://115.21.135.45:8000/")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
-    private val apiService: ApiService = retrofit.create(com.example.data.api.ApiService::class.java)
-    // db 초기화
-
-//    fun dbinit(context: Context){
-//        val db = Room.databaseBuilder(
-//            context,
-//            AppDatabase::class.java, "database-name"
-//        ).build()
-//
-//        val areaDataDao = db.areaDataDao()
-//    }
-
-
-
-
-//    API 호출 후 데이터 저장
-//    val areaData = AreaData(areaName, congestionLevel, datetime)
-//    areaDataDao.insert(areaData)
-//
-//    기존 데이터 삭제:
-//    areaDataDao.delete(areaName)
-//
-//    한 시간마다 데이터 저장:
-//    Android의 WorkManager를 사용하여 반복 작업을 스케줄링할 수 있습니다.
-//    val workRequest = PeriodicWorkRequestBuilder<MyWorker>(1, TimeUnit.HOURS).build()
-//    WorkManager.getInstance(context).enqueue(workRequest)
-
     fun callApi(areaName: String) {
         val call = apiService.getData()
         call.enqueue(object : Callback<ApiResponse> {
@@ -83,6 +55,11 @@ class ApiServiceManager(){
         val field = this::class.java.getDeclaredField(fieldName)
         return field.get(this) as Hotspot
     }
+
+    fun call잠실(){
+        callApi("롯데월드")
+    }
+
 }
 
 // Use the new function like:
