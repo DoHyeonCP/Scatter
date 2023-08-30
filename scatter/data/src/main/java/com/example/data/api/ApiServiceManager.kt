@@ -20,14 +20,14 @@ class ApiServiceManager(){
     private val apiService: ApiService = retrofit.create(com.example.data.api.ApiService::class.java)
     // db 초기화
 
-    fun dbinit(context: Context){
-        val db = Room.databaseBuilder(
-            context,
-            AppDatabase::class.java, "database-name"
-        ).build()
-
-        val areaDataDao = db.areaDataDao()
-    }
+//    fun dbinit(context: Context){
+//        val db = Room.databaseBuilder(
+//            context,
+//            AppDatabase::class.java, "database-name"
+//        ).build()
+//
+//        val areaDataDao = db.areaDataDao()
+//    }
 
 
 
