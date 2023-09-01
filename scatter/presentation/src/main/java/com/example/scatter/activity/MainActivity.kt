@@ -46,8 +46,8 @@ class MainActivity: ComponentActivity(){
 
     override fun onResume() {
         super.onResume()
-        RequestPermissions().requestlocationpermission(this, this, locationManager)
-        RequestPermissions().requestnotificationpermission(this, this)
+//        RequestPermissions().requestlocationpermission(this, this, locationManager)
+//        RequestPermissions().requestnotificationpermission(this, this)
     }
 }
 
