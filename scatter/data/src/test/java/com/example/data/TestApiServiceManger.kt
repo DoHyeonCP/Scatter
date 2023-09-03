@@ -4,7 +4,7 @@ package com.example.data
 import com.example.data.api.ApiResponse
 import com.example.data.api.ApiService
 import com.example.data.api.ApiServiceManager
-import com.example.data.model.Hotspot
+import com.example.data.api.Hotspot
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

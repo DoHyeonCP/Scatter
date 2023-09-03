@@ -1,6 +1,5 @@
 package com.example.data.api
 
-import com.example.data.model.Hotspot
 import com.google.gson.annotations.SerializedName
 
 data class ApiResponse(

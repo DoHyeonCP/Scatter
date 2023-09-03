@@ -4,14 +4,18 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.data.model.Hotspot
+import com.example.data.api.Hotspot
+import com.example.data.model.Congestion
 
 @Dao
 interface AreaDataDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(areaData: Hotspot)
+    fun insert(areaData: Congestion)
 
-    @Query("DELETE FROM congestion_info WHERE areaName = :areaName")
+    @Query("DELETE FROM congestion WHERE areaName = :areaName")
     fun delete(areaName: String)
+
+    @Query("Select * From congestion")
+    suspend fun getAllHotspots(): List<Congestion>
 }
 

@@ -1,9 +1,16 @@
 package com.example.data.api
 
 import android.content.Context
+import android.hardware.Camera.Area
 import android.util.Log
 import com.example.data.db.AppDatabase
-import com.example.data.model.Hotspot
+import com.example.data.db.AreaDataDao
+import com.example.data.model.Congestion
+import dagger.Module
+import dagger.hilt.android.HiltAndroidApp
+import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -11,12 +18,14 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 
-class ApiServiceManager(private val apiService: ApiService){
+class ApiServiceManager(private val context: Context){
     private val retrofit: Retrofit = Retrofit.Builder()
-        .baseUrl("http://115.21.135.45:8000/")
+//        .baseUrl("http://115.21.135.45:8000/")
+        .baseUrl("http://192.168.20.18:8000/")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
     fun callApi(areaName: String) {
+        var apiService = retrofit.create(ApiService::class.java)
         val call = apiService.getData()
         call.enqueue(object : Callback<ApiResponse> {
             override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
@@ -27,16 +36,14 @@ class ApiServiceManager(private val apiService: ApiService){
                         val congestionLevel = area.congestionLevel
                         val datetime = area.datetime
 
-//                        api호출 후 데이터 저장
-//                        val areaData = Hotspot(areaName, congestionLevel, datetime)
-//                        areaDataDao.insert(areaData)
-                        // Your text setting logic here
-                        // e.g.
-                        // val congetioninfobody = textbody
-                        // congetioninfobody.setTextColor(Color.BLACK)
-                        // congetioninfobody.text = "기준시간:$datetime \n" +
-                        //        "지역이름: $areaName \n" +
-                        //        "위험도: $congestionLevel \n"
+
+                        val areaData = Congestion(0, areaName, congestionLevel!!, datetime!!)
+
+
+                        GlobalScope.launch{
+                            AppDatabase.getDatabase(context).areaDataDao().insert(areaData)
+                        }
+
                     }
                 } else {
                     Log.e("API Error", "Request failed with code: ${response.code()}")
@@ -53,13 +60,9 @@ class ApiServiceManager(private val apiService: ApiService){
     // This is a helper function to get the value of the class field using reflection
     private fun ApiResponse.getClassField(fieldName: String): Hotspot {
         val field = this::class.java.getDeclaredField(fieldName)
+        field.isAccessible = true
         return field.get(this) as Hotspot
     }
-
-    fun call잠실(){
-        callApi("롯데월드")
-    }
-
 }
 
 // Use the new function like:
