@@ -25,12 +25,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.data.api.ApiService
 import com.example.data.api.ApiServiceManager
+import com.example.data.db.Db
 import dagger.hilt.android.AndroidEntryPoint
 
 
 class MainActivity: ComponentActivity(){
     private lateinit var locationManager: LocationManager
     private lateinit var apiServiceManager: ApiServiceManager
+    private lateinit var db : Db
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
         setContent{
@@ -39,15 +41,18 @@ class MainActivity: ComponentActivity(){
                     modifier = Modifier.fillMaxSize(),
 
                     ) {
-                    Main()
+                    Main(onMenuItemClick = { selectedItem ->
+                        apiServiceManager.callApi(selectedItem.name)
+                    })
                 }
             }
-
         }
 
 
+//        db = Db()
+//        db.dbinit(this)
         apiServiceManager = ApiServiceManager(this)
-        apiServiceManager.callApi("롯데월드")
+
     }
 
     override fun onResume() {
@@ -58,8 +63,8 @@ class MainActivity: ComponentActivity(){
 }
 
 @Composable
-fun Main() {
-    MyScaffoldLayout { paddingValues ->
+fun Main(onMenuItemClick: (MenuItems) -> Unit) {
+    MyScaffoldLayout(onMenuItemClick = onMenuItemClick) { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -81,12 +86,13 @@ fun Main() {
         }
     }
 }
-@Preview
-@Composable
-fun ToolbarSamplePreview() {
-    Surface(
-            modifier = Modifier.fillMaxSize(),
-        ) {
-       Main()
-    }
-}
+//@Preview
+//@Composable
+//fun ToolbarSamplePreview() {
+//    apise
+//    Surface(
+//            modifier = Modifier.fillMaxSize(),
+//        ) {
+//       Main()
+//    }
+//}

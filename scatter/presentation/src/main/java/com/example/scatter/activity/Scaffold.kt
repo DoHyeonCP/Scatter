@@ -2,6 +2,7 @@ package com.example.scatter.activity
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -43,7 +44,9 @@ import kotlinx.coroutines.launch
 import com.example.scatter.R
 
 @Composable
-fun MyScaffoldLayout(content: @Composable (PaddingValues) -> Unit) {
+fun MyScaffoldLayout(
+    onMenuItemClick: (MenuItems) -> Unit,
+    content: @Composable (PaddingValues) -> Unit) {
     val scaffoldState = rememberScaffoldState()
     val coroutineScope = rememberCoroutineScope()
     val contextForToast = LocalContext.current.applicationContext
@@ -59,9 +62,9 @@ fun MyScaffoldLayout(content: @Composable (PaddingValues) -> Unit) {
         drawerContent = {
             MyNavigationDrawer(
                 coroutineScope = coroutineScope,
-                scaffoldState = scaffoldState
-            )
-        },){
+                scaffoldState = scaffoldState,
+                onMenuItemClick = onMenuItemClick
+            ) },){
         paddingValues -> content(paddingValues)
     }
 }
@@ -113,7 +116,8 @@ sealed class MenuItems(val name: String) {
 @Composable
 fun MyNavigationDrawer(
     coroutineScope: CoroutineScope,
-    scaffoldState: ScaffoldState
+    scaffoldState: ScaffoldState,
+    onMenuItemClick: (MenuItems) -> Unit
 ) {
     val menuItemsList = listOf(
         MenuItems.롯데월드,
@@ -153,7 +157,10 @@ fun MyNavigationDrawer(
         menuItemsList.forEach { menuItem ->
             Text(
                 text = menuItem.name,
-                style = TextStyle(fontSize = 20.sp, textAlign = TextAlign.Start)
+                style = TextStyle(fontSize = 20.sp, textAlign = TextAlign.Start),
+                modifier = Modifier.clickable{
+                    onMenuItemClick(menuItem)
+                }
             )
             Spacer(modifier = Modifier.height(8.dp))
         }

@@ -13,7 +13,7 @@ class Db {
     fun dbinit(context: Context){
         val db = Room.databaseBuilder(
             context,
-            AppDatabase::class.java, "database-name"
+            AppDatabase::class.java, "Congestion"
         ).build()
 
         val areaDataDao = db.areaDataDao()
