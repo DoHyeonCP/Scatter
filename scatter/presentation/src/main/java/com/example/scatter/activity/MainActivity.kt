@@ -26,6 +26,8 @@ import androidx.compose.ui.unit.sp
 import com.example.data.api.ApiResponse
 import com.example.data.api.ApiServiceManager
 import com.example.data.db.AppDatabase
+import com.example.data.db.AreaDataDao
+import com.example.data.model.Congestion
 
 
 class MainActivity: ComponentActivity(){
@@ -34,8 +36,9 @@ class MainActivity: ComponentActivity(){
     private lateinit var appDatabase: AppDatabase
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
-        appDatabase = AppDatabase.getDatabase(applicationContext)!!
+        appDatabase = AppDatabase.getDatabase(this.applicationContext)!!
         apiServiceManager = ApiServiceManager(this)
+
 
 
         setContent{
@@ -45,7 +48,6 @@ class MainActivity: ComponentActivity(){
 
                     ) {
                     Main(onMenuItemClick = { selectedItem ->
-                        Toast.LENGTH_SHORT
                     })
                 }
             }
