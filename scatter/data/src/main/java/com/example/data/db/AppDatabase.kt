@@ -6,28 +6,23 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.data.model.Congestion
 
-@Database(entities = [Congestion::class], version = 1, exportSchema = false)
+@Database(entities = [Congestion::class],version = 1, exportSchema = false)
 abstract class AppDatabase: RoomDatabase(){
     abstract fun areaDataDao(): AreaDataDao
 
     companion object{
-        @Volatile
         private var INSTANCE: AppDatabase? = null
 
-        fun getDatabase(context: Context): AppDatabase{
-            return INSTANCE ?: synchronized(this){
-                val instance = Room.databaseBuilder(
+        @Synchronized
+        fun getDatabase(context: Context): AppDatabase? {
+            if (INSTANCE == null){
+                INSTANCE = Room.databaseBuilder(
                     context.applicationContext,
                     AppDatabase::class.java,
-                    "app_database"
+                    "congestion"
                 ).build()
-                INSTANCE = instance
-                instance
             }
-
+            return INSTANCE
         }
-
     }
-
-
 }

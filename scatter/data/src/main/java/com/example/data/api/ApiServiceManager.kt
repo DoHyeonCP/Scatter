@@ -2,6 +2,7 @@ package com.example.data.api
 
 import android.content.Context
 import android.hardware.Camera.Area
+import android.os.Bundle
 import android.util.Log
 import com.example.data.db.AppDatabase
 import com.example.data.db.AreaDataDao
@@ -24,7 +25,7 @@ class ApiServiceManager(private val context: Context){
         .baseUrl("http://192.168.20.18:8000/")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
-    fun callApi(areaName: String) {
+    fun callApi() {
         var apiService = retrofit.create(ApiService::class.java)
         val call = apiService.getData()
         call.enqueue(object : Callback<ApiResponse> {
@@ -32,17 +33,11 @@ class ApiServiceManager(private val context: Context){
                 if (response.isSuccessful) {
                     val apiResponse = response.body()
                     if(apiResponse != null){
-                        val area = apiResponse.getClassField(areaName) // Reflectively get the field
-                        val congestionLevel = area.congestionLevel
-                        val datetime = area.datetime
-
-
-                        val areaData = Congestion(0, areaName, congestionLevel!!, datetime!!)
-
-
-                        GlobalScope.launch{
-                            AppDatabase.getDatabase(context).areaDataDao().insert(areaData)
-                        }
+                        areaparshing("롯데월드", apiResponse)
+                        areaparshing("방이동먹자골목", apiResponse)
+                        areaparshing("에비뉴엘월드타워점", apiResponse)
+                        areaparshing("롯데월드몰", apiResponse)
+                        areaparshing("올림픽공원", apiResponse)
 
                     }
                 } else {
@@ -57,12 +52,25 @@ class ApiServiceManager(private val context: Context){
         })
     }
 
+    private fun areaparshing(areaName: String, apiResponse: ApiResponse){
+        val area = apiResponse.getClassField(areaName) // Reflectively get the field
+        val congestionLevel = area.congestionLevel
+        val datetime = area.datetime
+
+        val areaData = Congestion(0, areaName, congestionLevel!!, datetime!!)
+
+        GlobalScope.launch{
+            AppDatabase.getDatabase(context.applicationContext)!!.areaDataDao().insert(areaData)
+        }
+    }
+
     // This is a helper function to get the value of the class field using reflection
     private fun ApiResponse.getClassField(fieldName: String): Hotspot {
         val field = this::class.java.getDeclaredField(fieldName)
         field.isAccessible = true
         return field.get(this) as Hotspot
     }
+
 }
 
 // Use the new function like:

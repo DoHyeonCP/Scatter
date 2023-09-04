@@ -3,6 +3,7 @@ package com.example.scatter.activity
 import android.location.LocationManager
 import com.example.scatter.R
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
@@ -20,21 +21,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.data.api.ApiService
+import com.example.data.api.ApiResponse
 import com.example.data.api.ApiServiceManager
-import com.example.data.db.Db
-import dagger.hilt.android.AndroidEntryPoint
+import com.example.data.db.AppDatabase
 
 
 class MainActivity: ComponentActivity(){
     private lateinit var locationManager: LocationManager
     private lateinit var apiServiceManager: ApiServiceManager
-    private lateinit var db : Db
+    private lateinit var appDatabase: AppDatabase
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
+        appDatabase = AppDatabase.getDatabase(applicationContext)!!
+        apiServiceManager = ApiServiceManager(this)
+
+
         setContent{
             Column{
                 Surface(
@@ -42,24 +45,21 @@ class MainActivity: ComponentActivity(){
 
                     ) {
                     Main(onMenuItemClick = { selectedItem ->
-                        apiServiceManager.callApi(selectedItem.name)
+                        Toast.LENGTH_SHORT
                     })
                 }
             }
         }
 
-
-//        db = Db()
-//        db.dbinit(this)
-        apiServiceManager = ApiServiceManager(this)
+        apiServiceManager.callApi()
 
     }
 
-    override fun onResume() {
-        super.onResume()
-//        RequestPermissions().requestlocationpermission(this, this, locationManager)
-//        RequestPermissions().requestnotificationpermission(this, this)
-    }
+//    override fun onResume() {
+//        super.onResume()
+////        RequestPermissions().requestlocationpermission(this, this, locationManager)
+////        RequestPermissions().requestnotificationpermission(this, this)
+//    }
 }
 
 @Composable
