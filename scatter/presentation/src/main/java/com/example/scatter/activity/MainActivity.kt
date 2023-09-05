@@ -16,6 +16,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -23,49 +27,79 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.lifecycleScope
 import com.example.data.api.ApiResponse
 import com.example.data.api.ApiServiceManager
 import com.example.data.db.AppDatabase
 import com.example.data.db.AreaDataDao
 import com.example.data.model.Congestion
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class MainActivity: ComponentActivity(){
     private lateinit var locationManager: LocationManager
     private lateinit var apiServiceManager: ApiServiceManager
     private lateinit var appDatabase: AppDatabase
+
+
+
+
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
         appDatabase = AppDatabase.getDatabase(this.applicationContext)!!
         apiServiceManager = ApiServiceManager(this)
 
+        val appDao = appDatabase.areaDataDao()
 
 
         setContent{
+
             Column{
                 Surface(
                     modifier = Modifier.fillMaxSize(),
 
                     ) {
-                    Main(onMenuItemClick = { selectedItem ->
-                    })
+                    MyApp(appDao)
                 }
             }
         }
 
-        apiServiceManager.callApi()
+//        apiServiceManager.callApi()
 
     }
+
+
 
 //    override fun onResume() {
 //        super.onResume()
 ////        RequestPermissions().requestlocationpermission(this, this, locationManager)
 ////        RequestPermissions().requestnotificationpermission(this, this)
 //    }
+    @Composable
+    fun MyApp(appDao: AreaDataDao) {
+        var congestionDataList by remember { mutableStateOf(listOf<Congestion>()) }
+
+        Main(onMenuItemClick = { selectedItem ->
+            // 이 부분은 이제 Composable 함수 내부에 있으므로 Dispatchers.Main을 사용할 필요가 없습니다.
+            lifecycleScope.launch {
+                val data = withContext(Dispatchers.IO) {
+                    appDao.getCongestion(selectedItem.toString())
+                }
+                congestionDataList = data
+                Toast.makeText(this@MainActivity, "클릭됨", Toast.LENGTH_SHORT).show()
+            }
+        },
+            congestions = congestionDataList)
+    }
 }
 
+
+
 @Composable
-fun Main(onMenuItemClick: (MenuItems) -> Unit) {
+fun Main(onMenuItemClick: (MenuItems) -> Unit, congestions: List<Congestion>) {
+
     MyScaffoldLayout(onMenuItemClick = onMenuItemClick) { paddingValues ->
         Column(
             modifier = Modifier
@@ -80,14 +114,17 @@ fun Main(onMenuItemClick: (MenuItems) -> Unit) {
                 modifier = Modifier.fillMaxWidth() // 너비 최대
             )
             Spacer(modifier = Modifier.height(16.dp))
-            Text(
-                text = "실시간 혼잡도",
-                style = TextStyle(fontSize = 40.sp, textAlign = TextAlign.Start)
-
-            )
+            congestions.forEach { congestion ->
+                Text(
+                    text = "지역: ${congestion.areaName}, 혼잡도: ${congestion.congestionLevel}, 날짜: ${congestion.datetime}",
+                    style = TextStyle(fontSize = 20.sp, textAlign = TextAlign.Start)
+                )
+            }
         }
     }
 }
+
+
 //@Preview
 //@Composable
 //fun ToolbarSamplePreview() {

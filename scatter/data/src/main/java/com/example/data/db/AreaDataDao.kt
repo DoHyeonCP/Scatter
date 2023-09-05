@@ -15,8 +15,8 @@ interface AreaDataDao {
     @Query("DELETE FROM congestion WHERE areaName = :areaName")
     fun delete(areaName: String)
 
-    @Query("SELECT * FROM Congestion Where areaName = :areaName and datetime = :datetime")
-    fun getCongestion(areaName: String, datetime: String): List<Congestion>
+    @Query("SELECT * FROM Congestion Where areaName = :areaName")
+    fun getCongestion(areaName: String): List<Congestion>
 
 }
 
