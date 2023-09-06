@@ -88,7 +88,7 @@ class MainActivity: ComponentActivity(){
                     appDao.getCongestion(selectedItem.toString())
                 }
                 congestionDataList = data
-                Toast.makeText(this@MainActivity, "클릭됨", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@MainActivity, "$data", Toast.LENGTH_SHORT).show()
             }
         },
             congestions = congestionDataList)
