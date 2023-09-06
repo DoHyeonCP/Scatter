@@ -28,6 +28,8 @@ import com.example.data.api.ApiServiceManager
 import com.example.data.db.AppDatabase
 import com.example.data.db.AreaDataDao
 import com.example.data.model.Congestion
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 
 class MainActivity: ComponentActivity(){
@@ -62,7 +64,15 @@ class MainActivity: ComponentActivity(){
 ////        RequestPermissions().requestlocationpermission(this, this, locationManager)
 ////        RequestPermissions().requestnotificationpermission(this, this)
 //    }
+
+
+
+
 }
+
+//fun getCongestion(){
+//    appDatabase.areaDataDao().getCongestion()
+//}
 
 @Composable
 fun Main(onMenuItemClick: (MenuItems) -> Unit) {
