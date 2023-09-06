@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/lotteWorld"
+            android:title="롯데월드"/>
+        <item
+            android:id="@+id/bangiDong"
+            android:title="방이동먹자골목" />
+        <item
+            android:id="@+id/avenuelJamsil"
+            android:title="에비뉴엘월드타워점"
+            app:showAsAction="always"/>
+        <item
+            android:id="@+id/lotteWorldmall"
+            android:title="롯데월드몰" />
+
+        <item
+            android:id="@+id/oplmpicPark"
+            android:title="올림픽공원" />
+    </group>
+
+</menu>
