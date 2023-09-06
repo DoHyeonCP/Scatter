@@ -24,6 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -65,9 +66,7 @@ class MainActivity: ComponentActivity(){
                 }
             }
         }
-
 //        apiServiceManager.callApi()
-
     }
 
 
@@ -85,10 +84,10 @@ class MainActivity: ComponentActivity(){
             // 이 부분은 이제 Composable 함수 내부에 있으므로 Dispatchers.Main을 사용할 필요가 없습니다.
             lifecycleScope.launch {
                 val data = withContext(Dispatchers.IO) {
-                    appDao.getCongestion(selectedItem.toString())
+                    appDao.getCongestion(selectedItem.name)
                 }
                 congestionDataList = data
-                Toast.makeText(this@MainActivity, "$data", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@MainActivity, "$selectedItem.name", Toast.LENGTH_SHORT).show()
             }
         },
             congestions = congestionDataList)
@@ -116,8 +115,13 @@ fun Main(onMenuItemClick: (MenuItems) -> Unit, congestions: List<Congestion>) {
             Spacer(modifier = Modifier.height(16.dp))
             congestions.forEach { congestion ->
                 Text(
-                    text = "지역: ${congestion.areaName}, 혼잡도: ${congestion.congestionLevel}, 날짜: ${congestion.datetime}",
-                    style = TextStyle(fontSize = 20.sp, textAlign = TextAlign.Start)
+                    text = "지역: ${congestion.areaName}\n" +
+                            "혼잡도: ${congestion.congestionLevel}\n" +
+                            "날짜: ${congestion.datetime}",
+                    style = TextStyle(fontSize = 30.sp,
+                        textAlign = TextAlign.Start,
+                        fontWeight = FontWeight.Bold,
+                    )
                 )
             }
         }
