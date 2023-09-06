@@ -64,13 +64,10 @@ dependencies {
     implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
 
     //ROOM
-<<<<<<< HEAD
-    implementation "androidx.room:room-runtime:2.5.0"
-    kapt "androidx.room:room-compiler:2.5.0"
-=======
+
+
     api "androidx.room:room-runtime:2.4.3"
     kapt "androidx.room:room-compiler:2.4.3"
->>>>>>> c25ceefe9887c8e16efc30edc4ad5173beb79c20
 
 
     //hilt

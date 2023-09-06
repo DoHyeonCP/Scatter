@@ -36,17 +36,14 @@ import com.example.data.api.ApiServiceManager
 import com.example.data.db.AppDatabase
 import com.example.data.db.AreaDataDao
 import com.example.data.model.Congestion
-<<<<<<< HEAD
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-=======
 import com.example.scatter.module.UploadWorker
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.Calendar
 import java.util.concurrent.TimeUnit
->>>>>>> c25ceefe9887c8e16efc30edc4ad5173beb79c20
 
 
 class MainActivity: ComponentActivity(){
@@ -87,17 +84,11 @@ class MainActivity: ComponentActivity(){
 ////        RequestPermissions().requestlocationpermission(this, this, locationManager)
 ////        RequestPermissions().requestnotificationpermission(this, this)
 //    }
-<<<<<<< HEAD
 
 
 
 
-}
 
-//fun getCongestion(){
-//    appDatabase.areaDataDao().getCongestion()
-//}
-=======
     @Composable
     fun MyApp(appDao: AreaDataDao) {
         var congestionDataList by remember { mutableStateOf(listOf<Congestion>()) }
@@ -140,8 +131,6 @@ fun getInitialDelayToHour(): Long {
     }
     return targetCalendar.timeInMillis - currentCalendar.timeInMillis
 }
-
->>>>>>> c25ceefe9887c8e16efc30edc4ad5173beb79c20
 
 @Composable
 fun Main(onMenuItemClick: (MenuItems) -> Unit, congestions: List<Congestion>) {

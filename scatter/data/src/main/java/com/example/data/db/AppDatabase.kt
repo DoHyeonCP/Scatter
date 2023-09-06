@@ -23,6 +23,7 @@ abstract class AppDatabase: RoomDatabase(){
                         "congestion"
                     ).build()
                 }
+
             }
             return INSTANCE
         }
