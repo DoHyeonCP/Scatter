@@ -137,6 +137,6 @@ CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 CELERY_BEAT_SCHEDULE = {
     'update_seoul_hotspots': {
         'task': 'your_app.tasks.update_seoul_hotspots',
-        'schedule': 60,  # 60 * 60  == 1 hours
+        'schedule': 60*60,  # 60 * 60  == 1 hours
     },
 }

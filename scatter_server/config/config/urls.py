@@ -18,12 +18,13 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path,include
-from skapi.views import get_sk_hotspots
+from skapi.views import get_sk_hotspots, get_sk
 from forcast.views import export_images_as_json
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-sk/', get_sk_hotspots),
+    path('get-sk/', get_sk),
     path('forecastimages/', export_images_as_json),
 ] +static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
