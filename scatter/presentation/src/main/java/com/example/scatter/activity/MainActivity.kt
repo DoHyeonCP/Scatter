@@ -164,6 +164,14 @@ fun Main(onMenuItemClick: (MenuItems) -> Unit, congestions: List<Congestion>) {
     }
 }
 
+//        locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+//        com.example.data.mqtt.LocationInfo().startLocationService(locationManager)
+//
+//
+//        FirebaseMessaging.getInstance().token
+//            .addOnSuccessListener { token ->
+//                Log.d("token", "$token")
+//            }
 
 //@Preview
 //@Composable

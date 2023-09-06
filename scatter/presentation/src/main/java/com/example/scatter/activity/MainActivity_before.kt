@@ -81,14 +81,7 @@
 //        }
 //
 //
-//        locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-//        com.example.data.mqtt.LocationInfo().startLocationService(locationManager)
-//
-//
-//        FirebaseMessaging.getInstance().token
-//            .addOnSuccessListener { token ->
-//                Log.d("token", "$token")
-//            }
+
 //
 //
 //        navigationView.setNavigationItemSelectedListener(this)
@@ -172,7 +165,5 @@
 //
 //    override fun onResume() {
 //        super.onResume()
-//        RequestPermissions().requestlocationpermission(this, this, locationManager)
-//        RequestPermissions().requestnotificationpermission(this, this)
-//        com.example.data.mqtt.LocationInfo()
+
 //    }

@@ -1,4 +1,4 @@
-package com.example.data.mqtt
+package com.example.data.locationInfo
 
 import android.location.Location
 import android.location.LocationListener
@@ -65,7 +65,6 @@ class LocationInfo{
             val latitude = location.latitude
             val longitude = location.longitude
             val message = "내 위치는 Latitude : $latitude Longitude : $longitude"
-            com.example.data.mqtt.Mqtt().sendLocationToServer(latitude, longitude)
             Log.i("MyLocTest", message)
         }
 
