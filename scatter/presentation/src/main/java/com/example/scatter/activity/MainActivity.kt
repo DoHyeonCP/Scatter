@@ -29,14 +29,19 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.lifecycleScope
-import com.example.data.api.ApiResponse
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import com.example.data.api.ApiServiceManager
 import com.example.data.db.AppDatabase
 import com.example.data.db.AreaDataDao
 import com.example.data.model.Congestion
+import com.example.scatter.module.UploadWorker
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.Calendar
+import java.util.concurrent.TimeUnit
 
 
 class MainActivity: ComponentActivity(){
@@ -51,9 +56,10 @@ class MainActivity: ComponentActivity(){
         super.onCreate(savedInstanceState)
         appDatabase = AppDatabase.getDatabase(this.applicationContext)!!
         apiServiceManager = ApiServiceManager(this)
-
         val appDao = appDatabase.areaDataDao()
 
+//        appDao.deleteAll()
+        scheduleAPiCall()
 
         setContent{
 
@@ -87,13 +93,37 @@ class MainActivity: ComponentActivity(){
                     appDao.getCongestion(selectedItem.name)
                 }
                 congestionDataList = data
-                Toast.makeText(this@MainActivity, "$selectedItem.name", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@MainActivity, "불러오는 중입니다.", Toast.LENGTH_SHORT).show()
             }
+
         },
             congestions = congestionDataList)
     }
-}
 
+    private fun scheduleAPiCall(){
+//        apiServiceManager.callApi()
+        val repeatingRequest = PeriodicWorkRequestBuilder<UploadWorker>(1, TimeUnit.HOURS)
+            // 정각에 실행되도록 지연 설정
+            .setInitialDelay(getInitialDelayToHour(), TimeUnit.MILLISECONDS)
+            .build()
+
+        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
+            "ApiCall",
+            ExistingPeriodicWorkPolicy.KEEP,
+            repeatingRequest
+        )
+    }
+}
+fun getInitialDelayToHour(): Long {
+    val currentCalendar = Calendar.getInstance()
+    val targetCalendar = Calendar.getInstance().apply {
+        add(Calendar.HOUR_OF_DAY, 1)
+        set(Calendar.MINUTE, 0)
+        set(Calendar.SECOND, 0)
+        set(Calendar.MILLISECOND, 0)
+    }
+    return targetCalendar.timeInMillis - currentCalendar.timeInMillis
+}
 
 
 @Composable

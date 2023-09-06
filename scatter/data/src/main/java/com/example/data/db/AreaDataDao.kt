@@ -13,8 +13,8 @@ interface AreaDataDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(areaData: Congestion)
 
-    @Query("DELETE FROM congestion WHERE areaName = :areaName")
-    fun delete(areaName: String)
+    @Query("DELETE FROM Congestion")
+    fun deleteAll()
 
 
     @Query("SELECT * FROM Congestion Where areaName = :areaName ORDER BY datetime DESC LIMIT 1 ")

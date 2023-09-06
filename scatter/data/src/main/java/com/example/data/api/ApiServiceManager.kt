@@ -59,6 +59,7 @@ class ApiServiceManager(private val context: Context){
 
         val areaData = Congestion(0, areaName, congestionLevel!!, datetime!!)
 
+
         GlobalScope.launch{
             AppDatabase.getDatabase(context.applicationContext)!!.areaDataDao().insert(areaData)
         }
