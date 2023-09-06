@@ -21,8 +21,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class ApiServiceManager(private val context: Context){
     private val retrofit: Retrofit = Retrofit.Builder()
-//        .baseUrl("http://115.21.135.45:8000/")
-        .baseUrl("http://192.168.20.18:8000/")
+        .baseUrl("http://115.21.135.45:8000/")
+//        .baseUrl("http://192.168.20.18:8000/") twosome of onejong
         .addConverterFactory(GsonConverterFactory.create())
         .build()
     fun callApi() {
@@ -58,6 +58,7 @@ class ApiServiceManager(private val context: Context){
         val datetime = area.datetime
 
         val areaData = Congestion(0, areaName, congestionLevel!!, datetime!!)
+
 
         GlobalScope.launch{
             AppDatabase.getDatabase(context.applicationContext)!!.areaDataDao().insert(areaData)
