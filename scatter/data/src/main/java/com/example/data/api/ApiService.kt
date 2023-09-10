@@ -7,6 +7,6 @@ import retrofit2.Call
 import retrofit2.http.GET
 
 interface ApiService{
-    @GET("api-sk/") // 엔드포인트 경로
+    @GET("request_congestion/") // 엔드포인트 경로
     fun getData(): Call<ApiResponse>
 }
