@@ -48,6 +48,7 @@ dependencies {
     kapt "com.google.dagger:hilt-compiler:2.44"
 
 //    implementation "androidx.work:work-runtime-ktx:2.7.1"
+    //hilt
 }
 
 // Allow references to generated code

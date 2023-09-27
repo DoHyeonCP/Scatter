@@ -8,5 +8,4 @@ data class ApiResponse(
     @SerializedName("에비뉴엘월드타워점") val 에비뉴엘월드타워점: Hotspot,
     @SerializedName("롯데월드몰") val 롯데월드몰: Hotspot,
     @SerializedName("올림픽공원") val 올림픽공원: Hotspot,
-
     )

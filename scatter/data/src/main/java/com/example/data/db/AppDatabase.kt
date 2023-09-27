@@ -6,8 +6,11 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.data.model.Congestion
 
+
 @Database(entities = [Congestion::class],version = 1, exportSchema = false)
-abstract class AppDatabase: RoomDatabase(){
+abstract class AppDatabase(
+    context: Context
+): RoomDatabase(){
     abstract fun areaDataDao(): AreaDataDao
 
     companion object{

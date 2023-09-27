@@ -32,6 +32,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
+import com.example.data.api.ApiService
 import com.example.data.api.ApiServiceManager
 import com.example.data.db.AppDatabase
 import com.example.data.db.AreaDataDao
@@ -39,26 +40,34 @@ import com.example.data.model.Congestion
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import com.example.scatter.module.UploadWorker
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.Calendar
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
 
+@AndroidEntryPoint
 class MainActivity: ComponentActivity(){
     private lateinit var locationManager: LocationManager
-    private lateinit var apiServiceManager: ApiServiceManager
-    private lateinit var appDatabase: AppDatabase
+
+    @Inject
+    lateinit var apiServiceManager: ApiServiceManager
+
+    @Inject
+    lateinit var db: AppDatabase
+
+
 
 
 
 
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
-        appDatabase = AppDatabase.getDatabase(this.applicationContext)!!
-        apiServiceManager = ApiServiceManager(this)
-        val appDao = appDatabase.areaDataDao()
+
+        val appDao = db.areaDataDao()
 
 //        appDao.deleteAll()
         scheduleAPiCall()
@@ -77,13 +86,6 @@ class MainActivity: ComponentActivity(){
 //        apiServiceManager.callApi()
     }
 
-
-
-//    override fun onResume() {
-//        super.onResume()
-////        RequestPermissions().requestlocationpermission(this, this, locationManager)
-////        RequestPermissions().requestnotificationpermission(this, this)
-//    }
 
 
 
@@ -120,49 +122,51 @@ class MainActivity: ComponentActivity(){
             repeatingRequest
         )
     }
-}
-fun getInitialDelayToHour(): Long {
-    val currentCalendar = Calendar.getInstance()
-    val targetCalendar = Calendar.getInstance().apply {
-        add(Calendar.HOUR_OF_DAY, 1)
-        set(Calendar.MINUTE, 0)
-        set(Calendar.SECOND, 0)
-        set(Calendar.MILLISECOND, 0)
+
+    fun getInitialDelayToHour(): Long {
+        val currentCalendar = Calendar.getInstance()
+        val targetCalendar = Calendar.getInstance().apply {
+            add(Calendar.HOUR_OF_DAY, 1)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }
+        return targetCalendar.timeInMillis - currentCalendar.timeInMillis
     }
-    return targetCalendar.timeInMillis - currentCalendar.timeInMillis
-}
 
-@Composable
-fun Main(onMenuItemClick: (MenuItems) -> Unit, congestions: List<Congestion>) {
+    @Composable
+    fun Main(onMenuItemClick: (MenuItems) -> Unit, congestions: List<Congestion>) {
 
-    MyScaffoldLayout(onMenuItemClick = onMenuItemClick) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues = paddingValues),
-            verticalArrangement = Arrangement.Top, //상단 컨텐츠 배치
-            horizontalAlignment = Alignment.Start // 왼쪽 정렬
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.jamsil_map),
-                contentDescription = "jamsil_map",
-                modifier = Modifier.fillMaxWidth() // 너비 최대
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            congestions.forEach { congestion ->
-                Text(
-                    text = "지역: ${congestion.areaName}\n" +
-                            "혼잡도: ${congestion.congestionLevel}\n" +
-                            "날짜: ${congestion.datetime}",
-                    style = TextStyle(fontSize = 30.sp,
-                        textAlign = TextAlign.Start,
-                        fontWeight = FontWeight.Bold,
-                    )
+        MyScaffoldLayout(onMenuItemClick = onMenuItemClick) { paddingValues ->
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues = paddingValues),
+                verticalArrangement = Arrangement.Top, //상단 컨텐츠 배치
+                horizontalAlignment = Alignment.Start // 왼쪽 정렬
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.jamsil_map),
+                    contentDescription = "jamsil_map",
+                    modifier = Modifier.fillMaxWidth() // 너비 최대
                 )
+                Spacer(modifier = Modifier.height(16.dp))
+                congestions.forEach { congestion ->
+                    Text(
+                        text = "지역: ${congestion.areaName}\n" +
+                                "혼잡도: ${congestion.congestionLevel}\n" +
+                                "날짜: ${congestion.datetime}",
+                        style = TextStyle(fontSize = 30.sp,
+                            textAlign = TextAlign.Start,
+                            fontWeight = FontWeight.Bold,
+                        )
+                    )
+                }
             }
         }
     }
 }
+
 
 //        locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
 //        com.example.data.mqtt.LocationInfo().startLocationService(locationManager)
