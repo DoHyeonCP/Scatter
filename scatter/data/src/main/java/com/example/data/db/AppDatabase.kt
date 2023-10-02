@@ -8,27 +8,26 @@ import com.example.data.model.Congestion
 
 
 @Database(entities = [Congestion::class],version = 1, exportSchema = false)
-abstract class AppDatabase(
-    context: Context
-): RoomDatabase(){
+abstract class AppDatabase(): RoomDatabase(){
     abstract fun areaDataDao(): AreaDataDao
 
-    companion object{
-        @Volatile
-        private var INSTANCE: AppDatabase? = null
-
-        fun getDatabase(context: Context): AppDatabase? {
-            if (INSTANCE == null) {
-                synchronized(this) {
-                    INSTANCE = Room.databaseBuilder(
-                        context.applicationContext,
-                        AppDatabase::class.java,
-                        "congestion"
-                    ).build()
-                }
-
-            }
-            return INSTANCE
-        }
-    }
+    // Hilt를 사용하게 되어 제거됨.
+//    companion object{
+//        @Volatile
+//        private var INSTANCE: AppDatabase? = null
+//
+//        fun getDatabase(context: Context): AppDatabase? {
+//            if (INSTANCE == null) {
+//                synchronized(this) {
+//                    INSTANCE = Room.databaseBuilder(
+//                        context.applicationContext,
+//                        AppDatabase::class.java,
+//                        "congestion"
+//                    ).build()
+//                }
+//
+//            }
+//            return INSTANCE
+//        }
+//    }
 }

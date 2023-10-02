@@ -40,6 +40,7 @@ import com.example.data.model.Congestion
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import com.example.scatter.module.UploadWorker
+import com.example.scatter.permission.RequestPermissions
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -51,6 +52,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity: ComponentActivity(){
+    private lateinit var requestPermissions: RequestPermissions
     private lateinit var locationManager: LocationManager
 
     @Inject
@@ -66,6 +68,9 @@ class MainActivity: ComponentActivity(){
 
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
+
+        requestPermissions = RequestPermissions()
+        requestPermissions.requestlocationpermission(applicationContext, this)
 
         val appDao = db.areaDataDao()
 
@@ -83,7 +88,6 @@ class MainActivity: ComponentActivity(){
                 }
             }
         }
-//        apiServiceManager.callApi()
     }
 
 
@@ -135,9 +139,9 @@ class MainActivity: ComponentActivity(){
     }
 
     @Composable
-    fun Main(onMenuItemClick: (MenuItems) -> Unit, congestions: List<Congestion>) {
+    fun Main(onMenuItemClick: (Scaffold.MenuItems) -> Unit, congestions: List<Congestion>) {
 
-        MyScaffoldLayout(onMenuItemClick = onMenuItemClick) { paddingValues ->
+        Scaffold().MyScaffoldLayout(onMenuItemClick = onMenuItemClick) { paddingValues ->
             Column(
                 modifier = Modifier
                     .fillMaxSize()

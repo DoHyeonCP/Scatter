@@ -13,7 +13,8 @@ public class RequestPermissions {
     private val LOCATION_PERMISSION_REQUEST_CODE = 1
 
 
-    fun requestlocationpermission(context: Context, activity : MainActivity, locationmanager : LocationManager) {
+    // 아래 함수에 이거 주입 아직 안됨, locationmanager : LocationManager
+    fun requestlocationpermission(context: Context, activity : MainActivity) {
         if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
             && ContextCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
             && ContextCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_BACKGROUND_LOCATION) != PackageManager.PERMISSION_GRANTED

@@ -9,12 +9,16 @@ import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.example.data.api.ApiServiceManager
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
 class UploadWorker(appContext: Context, workerParams: WorkerParameters):
     Worker(appContext, workerParams) {
+
+    @Inject
+    lateinit var apiSerivceManager: ApiServiceManager
     override fun doWork(): Result {
-        val apiServiceManager = ApiServiceManager(applicationContext)
-        apiServiceManager.callApi()
+
+        apiSerivceManager.callApi()
         // Indicate whether the work finished successfully with the Result
         return Result.success()
     }

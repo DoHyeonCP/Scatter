@@ -20,7 +20,7 @@ object RetrofitModule {
 
     @Provides
     fun provideRetrofit(): Retrofit = Retrofit.Builder()
-        .baseUrl("http://serverurl:port/")
+        .baseUrl("http://serverurl:8000/")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
